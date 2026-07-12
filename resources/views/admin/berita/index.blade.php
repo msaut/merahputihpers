@@ -48,7 +48,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
+                    {{-- <tfoot>
                         <tr>
                             <th>#</th>
                             <th>Penulis</th>
@@ -58,7 +58,7 @@
                             <th>Dibaca</th>
                             <th>Aksi</th>
                         </tr>
-                    </tfoot>
+                    </tfoot> --}}
                 </table>
             </div>
         </div>

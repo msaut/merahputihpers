@@ -15,7 +15,7 @@ class WebController extends Controller
         $trending   = Berita::orderBy('views', 'desc')->take(1)->get();
         $latest     = Berita::latest()->take(1)->get();
         $kategoris  = Kategori::withCount('beritas')->get();
-        $berita     = Berita::latest()->get();
+        $berita     = Berita::latest()->paginate(4);
 
         return view('web.home', compact(
             'berita',

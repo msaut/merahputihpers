@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Data Kategori</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data User</h6>
             <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">+ Tambah User</a>
         </div>
         <div class="card-body">
@@ -31,22 +31,14 @@
                         <td>
                             <a href="{{ route('user.edit', $u) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form method="POST" action="{{ route('user.destroy', $u) }}" style="display:inline">
-                            @csrf @method('DELETE')
+                            @csrf
+                            @method('DELETE')
                             <button onclick="return confirm('Hapus user?')" class="btn btn-danger btn-sm">Hapus</button>
                             </form>
                         </td>
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

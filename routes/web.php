@@ -13,6 +13,7 @@ use App\Http\Controllers\Webcontroller;
 use App\Http\Controllers\KomentarController;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use App\Http\Controllers\WebAjaxController;
 
 
 Route::get('/', [WebController::class, 'index'])->name('berita.show');
@@ -44,6 +45,8 @@ Route::get('/berita/{slug}', [WebController::class, 'show'])->name('web.show');
 Route::post('/berita/{berita}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('web.kategori');
 
+Route::get('/ajax/whats-new', [WebAjaxController::class, 'whatsNew'])->name('ajax.whats-new');
+
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('user', UserController::class);
@@ -64,6 +67,7 @@ Route::middleware(['auth', 'role:admin, penulis'])->prefix('admin')->group(funct
 });
 
 Route::middleware(['auth', 'role:penulis'])->prefix('penulis')->group(function () {
+
     Route::get('/dashboard', [PenulisController::class, 'dashboard'])->name('penulis.dashboard');
     Route::get('kategori', [KategoriPenulisController::class,'index'])->name('penulis.kategori.index');
     Route::get('berita/create', [BeritaPenulisController::class, 'create'])->name('penulis.berita.create');

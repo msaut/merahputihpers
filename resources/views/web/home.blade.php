@@ -33,9 +33,13 @@
                             <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
                             <div class="trending-animated">
                                 <ul id="js-news" class="js-hidden">
-                                    <li class="news-item">Enak dibaca dan enak dimakan.</li>
-                                    <li class="news-item">Dunia dalam berita.</li>
-                                    <li class="news-item">Meong.</li>
+                                    @foreach ($berita->take(3) as $item)
+                                        <li class="news-item">
+                                            <a href="{{ route('web.show', $item->slug) }}">
+                                                {{ $item->judul }}
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                             
@@ -54,7 +58,7 @@
                                     <div class="trend-top-cap">
                                         <span>{{ $trendingOne->kategori->nama ?? 'Tanpa Kategori' }}</span>
                                         <h2>
-                                            <a href="{{ route('berita.show', $trendingOne->slug) }}">
+                                            <a href="{{ route('web.show', $trendingOne->slug) }}">
                                                 {{ $trendingOne->judul }}
                                             </a>
                                         </h2>
@@ -65,14 +69,14 @@
                         <!-- Trending Bottom -->
                         <div class="trending-bottom">
                             <div class="row">
-                                @foreach ($berita->take(3) as $item)
+                                    @foreach ($berita->take(3) as $item)
                                 <div class="col-lg-4">
                                     <div class="single-bottom mb-35">
                                         <div class="trend-bottom-img mb-30">
                                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="" class="square-img" loading="lazy">
                                         </div>
                                         <div class="trend-bottom-cap">
-                                            <span class="color1">{{ $item->kategori->nama ?? 'Ga masuk kategori, nyet' }}</span>
+                                            <span class="color1">{{ $item->kategori->nama ?? 'Tidak masuk kategori' }}</span>
                                             <h4><a href="{{ route('web.show', $item->slug) }}">{{ $item->judul }}</a></h4>
                                         </div>
                                     </div>
@@ -88,7 +92,7 @@
                             <h4 class="mb-3">Trending</h4>
                             <div class="list-group mb-4">
                                 @foreach($trending as $trend)
-                                    <a href="{{ route('berita.show', $trend->slug) }}" 
+                                    <a href="{{ route('web.show', $trend->slug) }}" 
                                     class="list-group-item list-group-item-action d-flex align-items-start gap-3">
                                         @if($trend->gambar)
                                             <img src="{{ asset('storage/' . $trend->gambar) }}" 
@@ -106,7 +110,7 @@
                             <h4 class="mb-3">Terbaru</h4>
                             <div class="list-group mb-4">
                                 @foreach($latest as $news)
-                                    <a href="{{ route('berita.show', $news->slug) }}" 
+                                    <a href="{{ route('web.show', $news->slug) }}" 
                                     class="list-group-item list-group-item-action d-flex align-items-start gap-3">
                                         @if($news->gambar)
                                             <img src="{{ asset('storage/' . $news->gambar) }}" 
@@ -147,7 +151,7 @@
                 <div class="row d-flex justify-content-between">
                     <div class="col-lg-3 col-md-3">
                         <div class="section-tittle mb-30">
-                            <h3>Whats New</h3>
+                            <h3>Terbaru</h3>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-9">
@@ -160,7 +164,7 @@
                                     $kategoriList = App\Models\Kategori::all();
                                     @endphp
                                     @foreach ($kategoriList as $kat)
-                                        <a class="nav-item nav-link" href="{{ route('web.kategori', $kat->id) }}">{{ $kat->nama }}</a>
+                                        <a href="{{ route('web.kategori', $kat->id) }}" class="nav-item nav-link js-whats-new-filter" data-kategori-id="{{ $kat->id }}">{{ $kat->nama }}</a>
                                     @endforeach
                                 </div>
                             </nav>
@@ -171,16 +175,16 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- Nav Card -->
-                        <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-content" id="berita-container">
                             <!-- card one -->
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">           
-                                <div class="whats-news-caption">
+                                <div class="whats-news-caption" id="whatsNewItems">
                                     <div class="row">
                                         @foreach ($berita as $item)
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="single-what-news mb-100">
                                                     <div class="what-img">
-                                                        <img class="square-img" src="storage/{{ $item->gambar }}" alt="">
+                                                        <img class="square-img" src="{{ asset('storage/berita/' . basename($item->gambar)) }}" alt="">
                                                     </div>
                                                     <div class="what-cap">
                                                         <span class="color1">{{ $item->kategori->nama }}</span>
@@ -190,7 +194,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>
+                                </div>loijn
                             </div>
                         </div>
                     <!-- End Nav Card -->
@@ -260,7 +264,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle mb-30">
-                            <h3>Recent Articles</h3>
+                            <h3 class="fas fa-fire text-danger">Terpopuler</h3>
                         </div>
                     </div>
                 </div>
@@ -316,15 +320,9 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="single-wrap d-flex justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-start">
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow roted"></span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow right-arrow"></span></a></li>
-                            </ul>
-                          </nav>
+                        @if (method_exists($berita, 'links'))
+                            {!! $berita->links('pagination::bootstrap-4') !!}
+                        @endif
                     </div>
                 </div>
             </div>
@@ -332,4 +330,12 @@
     </div>
     <!-- End pagination  -->
     </main>
+
+    <script>
+        // AJAX dihapus (Whats New memakai pagination server-side biasa).
+        // Ini sengaja dibiarkan kosong.
+    </script>
+
     @endsection
+
+

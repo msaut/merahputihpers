@@ -1,9 +1,10 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>MENIT.COM</title>
+        <title>MerahPutihpers.com</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
@@ -69,14 +70,14 @@
                    <div class="container">
                         <div class="row d-flex align-items-center">
                             <!-- Logo -->
-                            <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="col-xl-3 col-lg-3 col-md-3" >
                                 <div class="logo">
                                     <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo/logo.png') }}" alt="" width="200px" loading="lazy"></a>
                                 </div>
                             </div>
-                            <div class="col-xl-9 col-lg-9 col-md-9">
+                            <div class="col-xl-9 col-lg-9 col-md-9" >
                                 <div class="header-banner f-right ">
-                                    <img src="{{asset('assets/img/hero/header_card.png')}}" alt="" loading="lazy">
+                                    <img src="{{asset('assets/img/hero/header_card.png')}}" alt=""  loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -88,26 +89,24 @@
                         <div class="row align-items-center">
                             <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
                                 <!-- sticky -->
-                                    <div class="sticky-logo">
-                                        <a href="{{ url('/') }}"><img src="{{asset('assets/img/logo/logo.png')}}" alt="" width="200px" style="position: relative; top: 10px;" loading="lazy"></a>
-                                    </div>
+                                    {{-- <div class="sticky-logo">
+                                        <a href="{{ url('/') }}"><img src="{{asset('assets/img/logo/logo.png')}}" alt="" width="70px"  loading="lazy"></a>
+                                    </div> --}}
                                 <!-- Main-menu -->
                                 <div class="main-menu d-none d-md-block">
-                                    <nav>                  
-                                        <ul id="navigation">    
+                                    <nav> 
+                                        <ul id="navigation">
                                             <li><a href="{{ url('/') }}">Home</a></li>
-                                            <li><a href="#kategori">Category</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="latest_news.html">Latest News</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="#">Pages</a>
-                                                <ul class="submenu">
-                                                    <li><a href="elements.html">Element</a></li>
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
-                                                    <li><a href="details.html">Categori Details</a></li>
-                                                </ul>
+                                            @php
+                                                $kategori = \App\Models\Kategori::all();
+                                            @endphp
+                                            @foreach ($kategori as $kategori)
+                                            <li class="news-item">
+                                                <a href="{{ route('web.kategori', $kategori->id) }}" class="nav-item nav-link js-whats-new-filter" >
+                                                    {{ $kategori->nama }}
+                                                </a>
                                             </li>
+                                        @endforeach
                                         </ul>
                                     </nav>
                                 </div>
@@ -282,6 +281,30 @@
         <!-- Jquery Plugins, main Jquery -->	
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
-        
+        <script>
+$(document).on('click', '.pagination a', function(e) {
+    e.preventDefault();
+
+    let url = $(this).attr('href'); // ⬅️ ambil dari href Laravel
+
+    if (!url) return;
+
+    $.get(url, function(response) {
+
+        // ambil hanya bagian berita
+        let newContent = $(response).find('#berita-container').html();
+
+        $('#berita-container').html(newContent);
+
+        // scroll biar enak
+        $('html, body').animate({
+            scrollTop: $("#berita-container").offset().top - 100
+        }, 400);
+
+    }).fail(function() {
+        alert('Gagal load pagination');
+    });
+});
+</script>
     </body>
 </html>
