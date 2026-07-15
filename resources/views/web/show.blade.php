@@ -5,7 +5,7 @@
     <p class="text-danger mt-10">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</p>
     <h1 class="">{{ $berita->judul }}</h1>
     <p>{{ $berita->views }} x dibaca</p>
-    <img src="{{ asset('storage/' . $berita->gambar) }}" alt="" loading="lazy">
+    <img src="{{ $berita->gambar_base64 ? $berita->gambar_base64 : asset('storage/' . $berita->gambar) }}" alt="" loading="lazy" style="width: 100%; max-width: 800px; height: 320px; object-fit: contain; border-radius: 8px; display:block; margin: 0 auto; background: #f7f7f7;">
     <p>{!! $berita->isi !!}</p>
     <p>Kategori: {{ $berita->kategori ? $berita->kategori->nama : '-' }}</p>
     
@@ -18,11 +18,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="nama">Nama</label>
-                    <input type="text" name="nama" class="form-control" placeholder="Tulis Nama Lu" required>
+                    <input type="text" name="nama" class="form-control" placeholder="Tulis Nama" required>
                 </div>
                 <div class="form-group">
                     <label for="isi">Komentar</label>
-                    <textarea name="isi" class="form-control" rows="3" placeholder="Tulis komentar ente..." required></textarea>
+                    <textarea name="isi" class="form-control" rows="3" placeholder="Tulis komentar" required></textarea>
                 </div>
                 <button class="btn btn-primary">Kirim</button>
             </form>

@@ -16,8 +16,10 @@ class Berita extends Model
         'gambar',
         'kategori_id',
         'user_id',
-        'views'
+        'views',
+        'gambar_base64'
     ];
+
     public function kategori()
     {
         return $this->belongsTo(Kategori::class);

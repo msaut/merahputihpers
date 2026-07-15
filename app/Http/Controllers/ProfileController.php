@@ -86,6 +86,13 @@ class ProfileController extends Controller
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
+
+            $avatarBase64 = null;
+            $tmp = $avatar->getRealPath();
+            if ($tmp) {
+                $avatarBase64 = \App\Support\Base64Image::fileToBase64($tmp, true);
+            }
+
             $filename = time() . '.' . $avatar->getClientOriginalExtension();
             $path = public_path('uploads/avatar/' . $filename);
 
@@ -139,7 +146,11 @@ class ProfileController extends Controller
 
                 $data['avatar'] = $filename;
             }
-        }   
+
+            // also store base64 representation
+            $data['avatar_base64'] = $avatarBase64;
+        }  
+
 
             if ($request->filled('password')) {
                 if (!Hash::check($request->current_password, $user->password)) {

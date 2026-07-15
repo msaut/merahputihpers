@@ -95,13 +95,13 @@
                                 <!-- Main-menu -->
                                 <div class="main-menu d-none d-md-block">
                                     <nav> 
-                                        <ul id="navigation">
+                                        <ul id="navigation" >
                                             <li><a href="{{ url('/') }}">Home</a></li>
                                             @php
                                                 $kategori = \App\Models\Kategori::all();
                                             @endphp
                                             @foreach ($kategori as $kategori)
-                                            <li class="news-item">
+                                            <li class="news-item" >
                                                 <a href="{{ route('web.kategori', $kategori->id) }}" class="nav-item nav-link js-whats-new-filter" >
                                                     {{ $kategori->nama }}
                                                 </a>
@@ -138,7 +138,19 @@
 
     <main>
         @yield('content')
+
+        {{-- Google AdSense (sidebar bawah judul/konten) --}}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    @include('layouts.partials.google-ad-briding', [
+                        // default from config/env, override by passing $adSlot here if needed
+                    ])
+                </div>
+            </div>
+        </div>
     </main>
+
     
 
    <footer>

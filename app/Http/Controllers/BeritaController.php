@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Berita;
 use App\Models\Kategori;
-use Illuminate\Support\Str;
+use App\Support\Base64Image;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
@@ -16,27 +15,35 @@ class BeritaController extends Controller
      * Display a listing of the resource.
      */
     public function show($slug)
-    {   
+    {
         $berita = Berita::where('slug', $slug)->first();
         if (!$berita) {
             abort(404);
         }
+
         $berita->increment('views');
         $komentars = $berita->komentars()->latest()->paginate(5);
         $kategori = $berita->kategori;
         $trending = Berita::orderBy('views', 'desc')->take(5)->get();
         $latest = Berita::latest()->take(5)->get();
         $kategoris = Kategori::withCount('beritas')->orderBy('beritas_count', 'desc')->take(5)->get();
+
         return view('web.show', compact('berita', 'komentars', 'kategori', 'trending', 'latest', 'kategoris'));
     }
+
     public function index()
     {
-        $berita = Auth::user()->role === 'admin'
-            ? Berita::latest()->get()
-            : Berita::where('user_id', Auth::id())->latest()->get();
+        $query = Berita::query();
+
+        if (Auth::user()->role !== 'admin') {
+            $query->where('user_id', Auth::id());
+        }
+
+        $berita = $query->latest()->paginate(10);
 
         return view('admin.berita.index', compact('berita'));
     }
+
 
     public function create()
     {
@@ -50,10 +57,20 @@ class BeritaController extends Controller
             'judul' => 'required',
             'isi' => 'required',
             'kategori_id' => 'required|exists:kategoris,id',
-            'gambar' => 'nullable|image|max:2048'
+            'gambar' => 'nullable|image|max:2048',
         ]);
 
-        $path = $request->file('gambar') ? $request->file('gambar')->store('berita', 'public') : null;
+        $gambarName = null;
+        $gambarBase64 = null;
+
+        if ($request->file('gambar')) {
+            $gambarName = $request->file('gambar')->getClientOriginalName();
+
+            $tmp = $request->file('gambar')->getRealPath();
+            if ($tmp) {
+                $gambarBase64 = Base64Image::fileToBase64($tmp, true);
+            }
+        }
 
         Berita::create([
             'judul' => $request->judul,
@@ -61,7 +78,8 @@ class BeritaController extends Controller
             'isi' => $request->isi,
             'kategori_id' => $request->kategori_id,
             'user_id' => Auth::id(),
-            'gambar' => $path,
+            'gambar' => $gambarName,
+            'gambar_base64' => $gambarBase64,
         ]);
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan.');
@@ -76,18 +94,25 @@ class BeritaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([ 
+        $request->validate([
             'judul' => 'required',
             'isi' => 'required',
             'kategori_id' => 'required|exists:kategoris,id',
-            'gambar' => 'nullable|image|max:2048'
+            'gambar' => 'nullable|image|max:2048',
         ]);
 
         $berita = Berita::findOrFail($id);
 
+        $gambarName = $berita->gambar;
+        $gambarBase64 = $berita->gambar_base64;
+
         if ($request->file('gambar')) {
-            $path = $request->file('gambar')->store('berita', 'public');
-            $berita->gambar = $path;
+            $gambarName = $request->file('gambar')->getClientOriginalName();
+
+            $tmp = $request->file('gambar')->getRealPath();
+            if ($tmp) {
+                $gambarBase64 = Base64Image::fileToBase64($tmp, true);
+            }
         }
 
         $berita->update([
@@ -95,6 +120,8 @@ class BeritaController extends Controller
             'slug' => Str::slug($request->judul),
             'isi' => $request->isi,
             'kategori_id' => $request->kategori_id,
+            'gambar' => $gambarName,
+            'gambar_base64' => $gambarBase64,
         ]);
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate.');
@@ -102,19 +129,13 @@ class BeritaController extends Controller
 
     public function destroy(Berita $berita)
     {
-        // Periksa apakah pengguna adalah admin atau pemilik berita
         if (Auth::user()->role !== 'admin' && Auth::id() !== $berita->user_id) {
-            abort(403); // Jika bukan admin dan bukan pemilik, tolak akses
+            abort(403);
         }
 
-        // Hapus file gambar dari penyimpanan publik
-        if ($berita->gambar) {
-            Storage::disk('public')->delete($berita->gambar);
-        }
-
-        // Hapus data berita dari database
         $berita->delete();
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
-    }    
+    }
 }
+

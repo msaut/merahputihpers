@@ -1,0 +1,20 @@
+/* Custom pagination for admin berita: hide/neutralize prev/next icons that look oversized */
+
+/* Laravel pagination renders: <nav><ul class="pagination">...
+   We'll remove any <i> inside prev/next links and compact their padding. */
+
+.admin-berita-pagination .page-item .page-link i,
+.admin-berita-pagination .page-item .page-link svg,
+.admin-berita-pagination .page-item .page-link .fa,
+.admin-berita-pagination .page-item .page-link .fas,
+.admin-berita-pagination .page-item .page-link .far {
+  display: none !important;
+}
+
+/* Optional: reduce padding so layout doesn't shift */
+.admin-berita-pagination .page-item .page-link {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  line-height: 1.2 !important;
+}
+

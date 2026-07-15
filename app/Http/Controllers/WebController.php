@@ -12,8 +12,10 @@ class WebController extends Controller
     {
         $headline   = Berita::latest()->first();
         $trendingOne = Berita::orderBy('views', 'desc')->first();
-        $trending   = Berita::orderBy('views', 'desc')->take(1)->get();
+        // tampilkan beberapa berita terpopuler
+        $trending   = Berita::orderBy('views', 'desc')->take(4)->get();
         $latest     = Berita::latest()->take(1)->get();
+
         $kategoris  = Kategori::withCount('beritas')->get();
         $berita     = Berita::latest()->paginate(4);
 

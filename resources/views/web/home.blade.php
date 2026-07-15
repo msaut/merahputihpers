@@ -52,8 +52,8 @@
                         <div class="trending-top mb-30">
                             @if($trendingOne)
                                 <div class="trend-top-img">
-                                    <img src="{{ asset('storage/' . $trendingOne->gambar) }}" 
-                                        alt="{{ $trendingOne->judul }}" 
+                                <img src="{{ $trendingOne->gambar_base64 ? $trendingOne->gambar_base64 : ( $trendingOne->gambar ? asset('storage/' . $trendingOne->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" 
+                                        alt="{{ $trendingOne->judul }}"
                                         loading="lazy">
                                     <div class="trend-top-cap">
                                         <span>{{ $trendingOne->kategori->nama ?? 'Tanpa Kategori' }}</span>
@@ -73,7 +73,7 @@
                                 <div class="col-lg-4">
                                     <div class="single-bottom mb-35">
                                         <div class="trend-bottom-img mb-30">
-                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="" class="square-img" loading="lazy">
+                                    <img src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" alt="" class="square-img" loading="lazy">
                                         </div>
                                         <div class="trend-bottom-cap">
                                             <span class="color1">{{ $item->kategori->nama ?? 'Tidak masuk kategori' }}</span>
@@ -95,7 +95,7 @@
                                     <a href="{{ route('web.show', $trend->slug) }}" 
                                     class="list-group-item list-group-item-action d-flex align-items-start gap-3">
                                         @if($trend->gambar)
-                                            <img src="{{ asset('storage/' . $trend->gambar) }}" 
+                                    <img src="{{ $trend->gambar_base64 ? $trend->gambar_base64 : ( $trend->gambar ? asset('storage/' . $trend->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" 
                                                 class="rounded" 
                                                 style="width: 60px; height: 60px; object-fit: cover;" 
                                                 alt="{{ $trend->judul }}">
@@ -113,7 +113,7 @@
                                     <a href="{{ route('web.show', $news->slug) }}" 
                                     class="list-group-item list-group-item-action d-flex align-items-start gap-3">
                                         @if($news->gambar)
-                                            <img src="{{ asset('storage/' . $news->gambar) }}" 
+<img src="{{ $news->gambar_base64 ? $news->gambar_base64 : ( $news->gambar ? asset('storage/' . $news->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" 
                                                 class="rounded" 
                                                 style="width: 60px; height: 60px; object-fit: cover;" 
                                                 alt="{{ $news->judul }}">
@@ -184,7 +184,7 @@
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="single-what-news mb-100">
                                                     <div class="what-img">
-                                                        <img class="square-img" src="{{ asset('storage/berita/' . basename($item->gambar)) }}" alt="">
+<img class="square-img" src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" alt="">
                                                     </div>
                                                     <div class="what-cap">
                                                         <span class="color1">{{ $item->kategori->nama }}</span>
@@ -194,7 +194,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>loijn
+                                </div>
                             </div>
                         </div>
                     <!-- End Nav Card -->
@@ -238,7 +238,7 @@
                         </div>
                         <div class="follow-us d-flex align-items-center">
                             <div class="follow-social">
-                                <a href="#"><img src="assets/img/news/icon-yo.png" alt=""></a>
+                                <a href="https://web.facebook.com/profile.php?id=61591466745591"><img src="assets/img/news/icon-yo.png" alt=""></a>
                             </div>
                             <div class="follow-count">
                                 <span>8,045</span>
@@ -271,42 +271,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="recent-active dot-style d-flex dot-style">
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="assets/img/news/recent1.jpg" alt="">
+                            @foreach($trending as $item)
+                                <div class="single-recent mb-100">
+                                    <div class="what-img" style="max-width: 220px;">
+                                        <img src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}" alt="{{ $item->judul }}" style="width: 100%; height: 250px; object-fit: cover; border-radius: 6px; display:block;">
+                                    </div>
+                                    <div class="what-cap">
+                                        <span class="color1">{{ $item->kategori->nama ?? '-' }}</span>
+                                        <h4>
+                                            <a href="{{ route('web.show', $item->slug) }}">{{ $item->judul }}</a>
+                                        </h4>
+                                    </div>
                                 </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="assets/img/news/recent2.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="assets/img/news/recent3.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="assets/img/news/recent2.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

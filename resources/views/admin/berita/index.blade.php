@@ -1,6 +1,9 @@
 @extends('layouts.admin') 
 
-@section('content') 
+@section('content')
+
+<link rel="stylesheet" href="{{ asset('css/custom-pagination-admin.css') }}">
+
 
 <div class="container-fluid">
     <div class="card shadow mb-4">
@@ -10,12 +13,13 @@
         </div>
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <p class="m-0 text-primary">Berikut berita yang telah ditulis.</p>
-            <p class="m-0 text-primary">Jumlah Berita: {{ $berita->count() }}</p>
+            <p class="m-0 text-primary">Jumlah Berita: {{ $berita->total() }}</p>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
                     <thead>
                         <tr>
                             <th>#</th>
@@ -30,10 +34,10 @@
                     <tbody>
                         @foreach ($berita as $b)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $berita->firstItem() + $loop->index }}</td>
                             <td>{{ $b->user ? $b->user->name : 'Penulis tidak ditemukan atau sudah tidak aktif' }}</td>
                             <td>{{ $b->judul }}</td>
-                            <td><img src="{{ asset('storage/' . $b->gambar) }}" alt="" width="400"></td>
+                            <td><img src="{{ $b->gambar_base64 ? $b->gambar_base64 : asset('storage/' . $b->gambar) }}" alt="" width="80" height="40" style="object-fit: cover; border-radius: 4px;"></td>
                             <td>{{ $b->kategori->nama }}</td>
                             <td>{{ $b->views }} x</td>
                             <td>
@@ -60,6 +64,10 @@
                         </tr>
                     </tfoot> --}}
                 </table>
+
+                <div class="single-wrap d-flex justify-content-center admin-berita-pagination">
+                        {!! $berita->links('pagination::bootstrap-4') !!}
+                </div>
             </div>
         </div>
     </div>

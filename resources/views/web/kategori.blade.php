@@ -86,11 +86,11 @@
                                 @if($berita->count())
                                     @foreach ($berita as $item)
                                         <div class="col-lg-4 col-md-6 mb-4">
-                                            <div class="single-what-news">
+                                            <div class="single-what-news" style="margin-top: 3rem; margin-bottom: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                                                 <div class="what-img">
                                                     <img
                                                         class="square-img"
-                                                        src="{{ $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' }}"
+                                                        src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}"
                                                         alt="{{ $item->judul }}"
                                                         loading="lazy"
                                                     >
