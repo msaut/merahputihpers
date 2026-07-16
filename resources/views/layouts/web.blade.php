@@ -1,6 +1,30 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+    <style>
+       .footer-box {
+    transition: 0.3s;
+}
 
+.footer-box:hover {
+    transform: translateY(-3px);
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #d90429; /* merah elegan */
+    padding-left: 5px;
+}
+</style>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -167,23 +191,48 @@
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p>Suscipit mauris pede for con sectetuer sodales adipisci for cursus fames lectus tempor da blandit gravida sodales  Suscipit mauris pede for con sectetuer sodales adipisci for cursus fames lectus tempor da blandit gravida sodales  Suscipit mauris pede for sectetuer.</p>
+                                        <p>Merah Putih Pers Hadir untuk Memberikan Penerangan Terhadap Berita-berita yang baik,faktual,dan bermanfaat bagi masyarakat,kami menjaga etika dalam jurnalistik demi kebenaran dan kepentingan publik.</p>
                                     </div>
                                 </div>
                                 <!-- social -->
-                                <div class="footer-social">
+                                {{-- <div class="footer-social">
                                     <a href="#"><i class="fab fa-twitter"></i></a>
                                     <a href="#"><i class="fab fa-instagram"></i></a>
                                     <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
+
+                   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                    <div class="single-footer-caption mt-60">
+                        <div class="footer-box p-4 rounded shadow-sm bg-white">
+
+                            <!-- Terms -->
+                            <h5 class="fw-bold mb-3 border-bottom pb-2">Terms & Policy</h5>
+                            <ul class="list-unstyled footer-links mb-4">
+                                <li><a href="{{ route('static.terms-of-use') }}">Terms of Use</a></li>
+                                <li><a href="{{ route('static.privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="{{ route('static.contact') }}">Contact</a></li>
+                            </ul>
+
+                            <!-- Rekanan -->
+                            <h5 class="fw-bold mb-3 border-bottom pb-2">Rekanan</h5>
+                            <ul class="list-unstyled footer-links">
+                                <li><a href="https://suararakyat.info" target="_blank">suararakyat.info</a></li>
+                                <li><a href="https://mitrapolisi.com" target="_blank">mitrapolisi.com</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
                     <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6">
                         <div class="single-footer-caption mt-60">
                             <div class="footer-tittle">
                                 <h4>Newsletter</h4>
                                 <p>Heaven fruitful doesn't over les idays appear creeping</p>
+
                                 <!-- Form -->
                                 <div class="footer-form" >
                                     <div id="mc_embed_signup">
@@ -203,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    {{-- <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
                         <div class="single-footer-caption mb-50 mt-60">
                             <div class="footer-tittle">
                                 <h4>Instagram Feed</h4>
@@ -219,7 +268,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -230,16 +279,7 @@
                     <div class="row d-flex align-items-center justify-content-between">
                         <div class="col-lg-6">
                             <div class="footer-copy-right">
-                                <p>Copyright &copy; {{ date('Y') }} Pasific Media, Corp. All Rights Reserved</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="footer-menu f-right">
-                                <ul>                             
-                                    <li><a href="#">Terms of use</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
+                                <p>Copyright &copy; {{ date('Y') }} Merah Putih Pers, All Rights Reserved</p>
                             </div>
                         </div>
                     </div>

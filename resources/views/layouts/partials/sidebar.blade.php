@@ -18,6 +18,25 @@
                         <i class="fas fa-fw fa-table"></i>
                         <span>Berita</span></a>
                 </li>
+
+                <div class="sb-sidenav-menu-heading mt-3">Static Pages</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.static-pages.edit', ['type' => 'terms-of-use']) }}">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        <span>Terms of Use</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.static-pages.edit', ['type' => 'privacy-policy']) }}">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        <span>Privacy Policy</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.static-pages.edit', ['type' => 'contact']) }}">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        <span>Contact</span></a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('user.index')}}">
                         <i class="fas fa-fw fa-table"></i>

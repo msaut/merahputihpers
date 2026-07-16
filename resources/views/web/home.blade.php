@@ -211,38 +211,39 @@
                     <div class="single-box">
                         <div class="follow-us d-flex align-items-center">
                             <div class="follow-social">
-                                <a href="#"><img src="assets/img/news/icon-fb.png" alt=""></a>
+                                <a href="https://web.facebook.com/profile.php?id=61591466745591"><img src="assets/img/news/icon-fb.png" alt=""></a>
                             </div>
                             <div class="follow-count">  
-                                <span>8,045</span>
-                                <p>Fans</p>
+                                <span >Folow link</span>
+                                {{-- <p>Fans</p> --}}
                             </div>
                         </div> 
                         <div class="follow-us d-flex align-items-center">
                             <div class="follow-social">
-                                <a href="#"><img src="assets/img/news/icon-tw.png" alt=""></a>
+                                <a href="https://www.tiktok.com/@merahputihpers?_r=1&_t=ZS-97syyYINYkj"><img src="assets/img/news/icon-ttk.png" alt=""></a>
                             </div>
                             <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
+                                <span >Folow link</span>
+                                {{-- <p>Fans</p> --}}
                             </div>
                         </div>
                             <div class="follow-us d-flex align-items-center">
                             <div class="follow-social">
-                                <a href="#"><img src="assets/img/news/icon-ins.png" alt=""></a>
+                                <a href="https://www.instagram.com/merahputihpers/"><img src="assets/img/news/icon-ins.png" alt=""></a>
                             </div>
                             <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
+                                <span >Folow link</span>
+
+                                {{-- <p>Fans</p> --}}
                             </div>
                         </div>
                         <div class="follow-us d-flex align-items-center">
                             <div class="follow-social">
-                                <a href="https://web.facebook.com/profile.php?id=61591466745591"><img src="assets/img/news/icon-yo.png" alt=""></a>
+                                <a href="https://youtube.com/@merahputihpers?si=77bFZCJNvwc0HanN"><img src="assets/img/news/icon-yo.png" alt=""></a>
                             </div>
                             <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
+                                <span >Folow link</span>
+                                {{-- <p>Fans</p> --}}
                             </div>
                         </div>
                     </div>

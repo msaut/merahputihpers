@@ -14,6 +14,8 @@ use App\Http\Controllers\KomentarController;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\WebAjaxController;
+use App\Http\Controllers\StaticPageController;
+use App\Http\Controllers\AdminStaticPagesController;
 
 
 Route::get('/', [WebController::class, 'index'])->name('berita.show');
@@ -45,6 +47,8 @@ Route::get('/berita/{slug}', [WebController::class, 'show'])->name('web.show');
 Route::post('/berita/{berita}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('web.kategori');
 
+Route::post('/contact/messages', [StaticPageController::class, 'storeContactMessage'])->name('static.contact.messages');
+
 Route::get('/ajax/whats-new', [WebAjaxController::class, 'whatsNew'])->name('ajax.whats-new');
 
 
@@ -64,6 +68,23 @@ Route::middleware(['auth', 'role:admin, penulis'])->prefix('admin')->group(funct
     Route::get('berita/{berita}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
     Route::put('berita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
     Route::delete('berita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+});
+
+// Public static pages
+Route::get('/terms-of-use', [StaticPageController::class, 'termsOfUse'])->name('static.terms-of-use');
+Route::get('/privacy-policy', [StaticPageController::class, 'privacyPolicy'])->name('static.privacy-policy');
+Route::get('/contact', [StaticPageController::class, 'contact'])->name('static.contact');
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    // Admin CRUD static pages (type-based)
+    Route::get('/static-pages', function () {
+        return redirect()->route('admin.static-pages.edit', ['type' => 'terms-of-use']);
+    })->name('admin.static-pages.index');
+
+    Route::get('/static-pages/{type}', [AdminStaticPagesController::class, 'edit'])->name('admin.static-pages.edit');
+    Route::put('/static-pages/{type}', [AdminStaticPagesController::class, 'update'])->name('admin.static-pages.update');
+    Route::post('/static-pages/{type}', [AdminStaticPagesController::class, 'store'])->name('admin.static-pages.store');
+    Route::delete('/static-pages/{type}', [AdminStaticPagesController::class, 'destroy'])->name('admin.static-pages.destroy');
 });
 
 Route::middleware(['auth', 'role:penulis'])->prefix('penulis')->group(function () {
