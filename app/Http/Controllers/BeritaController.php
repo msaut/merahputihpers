@@ -31,17 +31,44 @@ class BeritaController extends Controller
         return view('web.show', compact('berita', 'komentars', 'kategori', 'trending', 'latest', 'kategoris'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $query = Berita::query();
 
+        $status = $request->query('status');
+        $kategoriId = $request->query('kategori');
+        $penulisId = $request->query('penulis');
+
         if (Auth::user()->role !== 'admin') {
             $query->where('user_id', Auth::id());
+        } else {
+            if (!empty($penulisId)) {
+                $query->where('user_id', $penulisId);
+            }
+
+            if (!empty($kategoriId)) {
+                $query->where('kategori_id', $kategoriId);
+            }
+
+            if (!empty($status)) {
+                $query->where('status', $status);
+            }
         }
 
-        $berita = $query->latest()->paginate(10);
+        $berita = $query
+            ->with(['user', 'kategori'])
+            ->latest()
+            ->paginate(10)
+            ->appends([
+                'penulis' => $penulisId,
+                'kategori' => $kategoriId,
+                'status' => $status,
+            ]);
 
-        return view('admin.berita.index', compact('berita'));
+        $kategoris = Kategori::all(['id', 'nama']);
+        $penulis = \App\Models\User::all(['id', 'name']);
+
+        return view('admin.berita.index', compact('berita', 'kategoris', 'penulis'));
     }
 
 
@@ -72,6 +99,19 @@ class BeritaController extends Controller
             }
         }
 
+        $status = $request->input('status', 'draft');
+        $publishAt = $request->input('publish_at');
+
+        // kalau user pilih publish langsung
+        if ($status === 'published' && empty($publishAt)) {
+            $publishAt = now();
+        }
+
+        $publishedAt = null;
+        if ($status === 'published') {
+            $publishedAt = now();
+        }
+
         Berita::create([
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
@@ -80,7 +120,11 @@ class BeritaController extends Controller
             'user_id' => Auth::id(),
             'gambar' => $gambarName,
             'gambar_base64' => $gambarBase64,
+            'status' => $status,
+            'publish_at' => $publishAt,
+            'published_at' => $publishedAt,
         ]);
+
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan.');
     }
@@ -115,6 +159,14 @@ class BeritaController extends Controller
             }
         }
 
+        $status = $request->input('status', 'draft');
+        $publishAt = $request->input('publish_at');
+
+        $publishedAt = null;
+        if ($status === 'published') {
+            $publishedAt = now();
+        }
+
         $berita->update([
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
@@ -122,7 +174,11 @@ class BeritaController extends Controller
             'kategori_id' => $request->kategori_id,
             'gambar' => $gambarName,
             'gambar_base64' => $gambarBase64,
+            'status' => $status,
+            'publish_at' => $publishAt,
+            'published_at' => $publishedAt,
         ]);
+
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate.');
     }

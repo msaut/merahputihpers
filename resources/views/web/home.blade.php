@@ -292,7 +292,7 @@
     </div>           
     <!--Recent Articles End -->
     <!--Start pagination -->
-    <div class="pagination-area pb-45 text-center">
+    {{-- <div class="pagination-area pb-45 text-center">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
@@ -304,7 +304,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End pagination  -->
     </main>
 

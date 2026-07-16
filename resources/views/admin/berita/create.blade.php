@@ -34,6 +34,17 @@
                 <label>Gambar</label>
                 <input type="file" name="gambar" class="form-control">
             </div>
+            <div class="mb-3">
+                <label>Status</label>
+                <select name="status" class="form-control">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Publish At</label>
+                <input type="datetime-local" name="publish_at" class="form-control">
+            </div>
             <button class="btn btn-success">Simpan</button>
         </form>
         </div>

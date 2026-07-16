@@ -31,6 +31,17 @@
                 <label>Gambar Baru (Opsional)</label>
                 <input type="file" name="gambar" class="form-control">
             </div>
+            <div class="mb-3">
+                <label>Status</label>
+                <select name="status" class="form-control">
+                    <option value="draft" {{ $berita->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="published" {{ $berita->status == 'published' ? 'selected' : '' }}>Published</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Publish At</label>
+                <input type="datetime-local" name="publish_at" class="form-control" value="{{ $berita->publish_at ? $berita->publish_at->format('Y-m-d\TH:i') : '' }}">
+            </div>
             <button class="btn btn-primary">Update</button>
         </form>
         </div>
