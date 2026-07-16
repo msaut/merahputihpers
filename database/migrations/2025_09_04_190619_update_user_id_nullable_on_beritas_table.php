@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->nullable()->change();
         });
 
+        // Prevent duplicate FK error if constraint already exists
+        DB::statement('ALTER TABLE `beritas` DROP FOREIGN KEY `beritas_user_id_foreign`');
         DB::statement('ALTER TABLE `beritas`
             ADD CONSTRAINT `beritas_user_id_foreign`
             FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
