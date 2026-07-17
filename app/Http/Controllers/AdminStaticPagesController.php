@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TermsOfUse;
 use App\Models\PrivacyPolicy;
 use App\Models\Contact;
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 
 class AdminStaticPagesController extends Controller
@@ -55,9 +56,15 @@ class AdminStaticPagesController extends Controller
 
         $item = $modelClass::query()->latest()->first() ?? new $modelClass();
 
+        $contactMessages = null;
+        if ($type === 'contact') {
+            $contactMessages = ContactMessage::query()->latest()->get();
+        }
+
         return view('admin.static-pages.edit', [
             'item' => $item,
             'type' => $type,
+            'contactMessages' => $contactMessages,
         ]);
     }
 
