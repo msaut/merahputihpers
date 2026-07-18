@@ -13,7 +13,11 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    'adsense' => [
+    'client' => env('ADSENSE_CLIENT'),
+    'slot' => env('ADSENSE_SLOT'),
+    'enable' => env('ADSENSE_ENABLE', true),
+],
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
