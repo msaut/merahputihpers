@@ -10,9 +10,9 @@
      * Fallbacks:
      * - ADSENSE_CLIENT, ADSENSE_SLOT, ADSENSE_ENABLE
      */
-    $enable = config('services.adsense.enable', env('ADSENSE_ENABLE', false));
-    $client = config('services.adsense.client', env('ADSENSE_CLIENT'));
-    $slot = config('services.adsense.slot', env('ADSENSE_SLOT'));
+    $enable = config('services.adsense.enable', env('ADSENSE_ENABLE', true));
+    $client = config('services.adsense.client', env('ADSENSE_CLIENT', 'ca-pub-3497744917263603'));
+    $slot = config('services.adsense.slot', env('ADSENSE_SLOT', '1234567890'));
 
     // Allow override per include
     $adClient = $adClient ?? $client;
@@ -40,8 +40,8 @@
         </script>
     </div>
 
-    {{-- Load script once (async) -- keep it here so include remains "self contained".
-         AdSense will ignore duplicate loads in most cases, but this is still best-effort. --}}
+    {{-- Load script once (async). Per AdSense docs, this should be before rendering <ins>. --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
+
 @endif
 
