@@ -36,14 +36,8 @@
 
         <!-- AdSense -->
         {{-- AdSense bridging script (sebaiknya dimuat di <head> sekali saja) --}}
-        @php
-            $adClient = env('ADSENSE_CLIENT', config('services.adsense.client', 'ca-pub-3497744917263603'));
-            $adEnable = env('ADSENSE_ENABLE', config('services.adsense.enable', true));
-        @endphp
-        @if($adEnable && !empty($adClient))
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
-        @endif
-
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3497744917263603"
+     crossorigin="anonymous"></script>
         <!-- CSS here -->
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
