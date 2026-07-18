@@ -34,7 +34,17 @@
         <link rel="manifest" href="site.webmanifest">
 		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-		<!-- CSS here -->
+        <!-- AdSense -->
+        {{-- AdSense bridging script (sebaiknya dimuat di <head> sekali saja) --}}
+        @php
+            $adClient = env('ADSENSE_CLIENT', config('services.adsense.client', 'ca-pub-3497744917263603'));
+            $adEnable = env('ADSENSE_ENABLE', config('services.adsense.enable', true));
+        @endphp
+        @if($adEnable && !empty($adClient))
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
+        @endif
+
+        <!-- CSS here -->
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/ticker-style.css') }}">

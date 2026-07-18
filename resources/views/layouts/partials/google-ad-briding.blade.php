@@ -40,8 +40,8 @@
         </script>
     </div>
 
-    {{-- Load script once (async). Per AdSense docs, this should be before rendering <ins>. --}}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
-
+    {{-- Script load:
+         Untuk kepatuhan AdSense biasanya script diletakkan di <head> sekali saja.
+         Jadi partial ini hanya render <ins> (script tidak ikut dimuat di sini). --}}
 @endif
 
