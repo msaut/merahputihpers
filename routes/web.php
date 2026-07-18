@@ -9,7 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BeritaPenulisController;
 use App\Http\Controllers\KategoriPenulisController;
 use App\Http\Controllers\PenulisController;
-use App\Http\Controllers\Webcontroller;
+use App\Http\Controllers\WebController;
 use App\Http\Controllers\KomentarController;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Profiler\Profile;
