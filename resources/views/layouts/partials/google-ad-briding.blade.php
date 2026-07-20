@@ -11,7 +11,7 @@
      * - ADSENSE_CLIENT, ADSENSE_SLOT, ADSENSE_ENABLE
      */
     $enable = config('services.adsense.enable', env('ADSENSE_ENABLE', true));
-    $client = config('services.adsense.client', env('ADSENSE_CLIENT', 'ca-pub-3497744917263603'));
+    $client = config('services.adsense.client', env('ADSENSE_CLIENT', 'ca-pub-9554143637851066'));
     $slot = config('services.adsense.slot', env('ADSENSE_SLOT', '1234567890'));
 
     // Allow override per include

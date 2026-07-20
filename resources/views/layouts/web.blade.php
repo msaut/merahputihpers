@@ -37,8 +37,8 @@
         <!-- AdSense -->
         {{-- AdSense bridging script (sebaiknya dimuat di <head> sekali saja) --}}
         @php
-           $adClient = config('services.adsense.client', 'ca-pub-3497744917263603');
-$adEnable = config('services.adsense.enable', true);
+           $adClient = config('services.adsense.client', 'ca-pub-9554143637851066');
+            $adEnable = config('services.adsense.enable', true);
         @endphp
         @if($adEnable && !empty($adClient))
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
