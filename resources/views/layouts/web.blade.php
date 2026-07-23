@@ -46,11 +46,13 @@
 
 /* MAIN HEADER */
 .main-header {
+    position: fixed;   /* UBAH dari sticky ke fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
     background: #fff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 0;
-    z-index: 999;
 }
 
 /* FLEX */
@@ -129,6 +131,39 @@
     .header-flex {
         justify-content: space-between;
     }
+    body {
+    padding-top: 110px; /* sesuaikan tinggi header */
+}
+/* TOP BAR HITAM */
+.top-bar {
+    background: #000;
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 14px;
+}
+
+/* SOCIAL ICON */
+.top-social {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top-social a img {
+    width: 28px; /* BESAR */
+    height: 28px;
+    object-fit: contain;
+    transition: 0.3s;
+}
+
+/* HOVER EFFECT */
+.top-social a:hover img {
+    transform: scale(1.2);
+}
+.top-social a:hover img {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+}
 }
 </style>
 <head>
@@ -178,17 +213,35 @@
    <header class="header-modern">
     <!-- TOP BAR -->
     <div class="top-bar">
-        <div class="container-fluid d-flex justify-content-between">
-            <div class="date">
-                {{ date('l, d M Y') }}
-            </div>
-            <div class="social">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-            </div>
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+        <!-- KIRI (Tanggal) -->
+        <div class="date">
+            {{ date('l, d M Y') }}
+        </div>
+
+        <!-- KANAN (Social Besar) -->
+        <div class="top-social">
+
+            <a href="https://web.facebook.com/profile.php?id=61591466745591" target="_blank">
+                <img src="{{ asset('assets/img/news/icon-fb.png') }}" alt="fb">
+            </a>
+
+            <a href="https://www.instagram.com/merahputihpers/" target="_blank">
+                <img src="{{ asset('assets/img/news/icon-ins.png') }}" alt="ig">
+            </a>
+
+            <a href="https://www.tiktok.com/@merahputihpers" target="_blank">
+                <img src="{{ asset('assets/img/news/icon-ttk.png') }}" alt="tiktok">
+            </a>
+
+            <a href="https://youtube.com/@merahputihpers" target="_blank">
+                <img src="{{ asset('assets/img/news/icon-yo.png') }}" alt="yt">
+            </a>
+
         </div>
     </div>
+</div>
 
     <!-- MAIN HEADER -->
     <div class="main-header">
