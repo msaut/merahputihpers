@@ -34,3 +34,196 @@ a {
 a:hover {
     color: #a71d2a;
 }
+
+/* ===== Share Buttons Modern Style ===== */
+.share-buttons-wrapper {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.share-buttons-wrapper:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.share-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.share-label i {
+    color: #dc3545;
+    font-size: 16px;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.share-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.share-btn:hover::before {
+    left: 100%;
+}
+
+.share-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.share-btn-text {
+    white-space: nowrap;
+}
+
+/* Facebook */
+.share-btn-facebook {
+    background: linear-gradient(135deg, #1877F2, #0d65d9);
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+}
+
+.share-btn-facebook:hover {
+    background: linear-gradient(135deg, #0d65d9, #0a4fa8);
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(24, 119, 242, 0.4);
+    transform: translateY(-2px);
+}
+
+.share-btn-facebook .share-btn-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+/* WhatsApp */
+.share-btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+
+.share-btn-whatsapp:hover {
+    background: linear-gradient(135deg, #128C7E, #075E54);
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+}
+
+.share-btn-whatsapp .share-btn-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Copy Link */
+.share-btn-copy {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+.share-btn-copy:hover {
+    background: linear-gradient(135deg, #495057, #343a40);
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(108, 117, 125, 0.4);
+    transform: translateY(-2px);
+}
+
+.share-btn-copy .share-btn-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+.share-btn-copy.copied {
+    background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3) !important;
+}
+
+/* Toast Notification */
+.copy-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #212529;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+}
+
+.copy-toast i {
+    color: #28a745;
+    font-size: 20px;
+}
+
+.copy-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .share-buttons-wrapper {
+        padding: 16px;
+    }
+
+    .share-buttons {
+        gap: 8px;
+    }
+
+    .share-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .share-btn-text {
+        display: inline;
+    }
+}
