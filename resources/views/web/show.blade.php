@@ -4,23 +4,54 @@
 
 @section('og_meta')
 @php
-    $ogImage = $berita->gambar
-        ? asset('storage/berita/' . $berita->gambar)
-        : asset('assets/img/logo/logo.png');
+    // Resolusi URL Gambar absolut untuk OG Meta (WhatsApp, Facebook, Twitter)
+    if ($berita->gambar) {
+        $imgPath = Str::startsWith($berita->gambar, 'berita/') 
+            ? $berita->gambar 
+            : 'berita/' . $berita->gambar;
+        $ogImage = asset('storage/' . $imgPath);
+    } else {
+        $ogImage = asset('assets/img/logo/logo.png');
+    }
 
-    $desc = Str::limit(strip_tags($berita->isi), 160);
+    // Clean description 300 karakter tanpa tag HTML & tanpa ekstra newline
+    $rawText = strip_tags(html_entity_decode($berita->isi));
+    $cleanText = trim(preg_replace('/\s+/', ' ', $rawText));
+    $desc = Str::limit($cleanText, 300);
+
+    // Judul & Meta info
+    $ogTitle = $berita->judul;
+    $publishTime = $berita->published_at
+        ? $berita->published_at->toIso8601String()
+        : $berita->created_at->toIso8601String();
+    $kategoriNama = $berita->kategori->nama ?? 'Berita';
 @endphp
 
-<meta property="og:title" content="{{ $berita->judul }}" />
+<meta name="description" content="{{ $desc }}" />
+
+{{-- Open Graph Meta (Facebook, WhatsApp, Telegram, Line) --}}
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="MerahPutihPers" />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:title" content="{{ $ogTitle }}" />
 <meta property="og:description" content="{{ $desc }}" />
+<meta property="og:url" content="{{ url()->current() }}" />
 <meta property="og:image" content="{{ $ogImage }}" />
+<meta property="og:image:secure_url" content="{{ $ogImage }}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:url" content="{{ url()->current() }}" />
-<meta property="og:type" content="article" />
+<meta property="og:image:alt" content="{{ $berita->judul }}" />
 
+{{-- Metadata Artikel --}}
+<meta property="article:published_time" content="{{ $publishTime }}" />
+<meta property="article:section" content="{{ $kategoriNama }}" />
+
+{{-- Twitter Card --}}
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ $ogTitle }}" />
+<meta name="twitter:description" content="{{ $desc }}" />
 <meta name="twitter:image" content="{{ $ogImage }}" />
+<meta name="twitter:image:alt" content="{{ $berita->judul }}" />
 @endsection
 
 @section('content')

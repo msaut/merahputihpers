@@ -212,22 +212,31 @@ body {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MerahPutihpers.com</title>
-    <meta name="description" content="">
+    <title>@hasSection('title')@yield('title')@else MerahPutihpers.com - Berita Terkini @endif</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
 
     {{-- Open Graph / Social Share Meta --}}
     @hasSection('og_meta')
         @yield('og_meta')
     @else
+        {{-- Default OG untuk halaman selain artikel --}}
+        @php $defaultOgImage = asset('assets/img/logo/logo.png'); @endphp
+        <meta name="description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
         <meta property="og:title" content="MerahPutihPers.com - Berita Terkini" />
         <meta property="og:description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
-        <meta property="og:image" content="{{ asset('assets/img/logo/logo.png') }}" />
+        <meta property="og:image" content="{{ $defaultOgImage }}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MerahPutihPers" />
+        <meta property="og:locale" content="id_ID" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="MerahPutihPers.com - Berita Terkini" />
+        <meta name="twitter:description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
+        <meta name="twitter:image" content="{{ $defaultOgImage }}" />
     @endif
 
     @php
