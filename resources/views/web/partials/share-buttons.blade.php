@@ -1,12 +1,10 @@
 {{-- 
-    Share Buttons Component
-    Usage: @include('web.partials.share-buttons', ['url' => $url, 'title' => $title, 'image' => $image, 'description' => $description])
+    Share Buttons Component (Icon Only)
+    Usage: @include('web.partials.share-buttons', ['url' => $url, 'title' => $title])
 --}}
 @php
     $shareUrl = $url ?? url()->current();
     $shareTitle = $title ?? 'MerahPutihPers.com';
-    $shareImage = $image ?? asset('assets/img/logo/logo.png');
-    $shareDescription = $description ?? 'Baca selengkapnya di MerahPutihPers.com';
     
     $encodedUrl = urlencode($shareUrl);
     $encodedTitle = urlencode($shareTitle);
@@ -25,11 +23,9 @@
            target="_blank" 
            rel="noopener noreferrer" 
            class="share-btn share-btn-facebook"
-           data-tooltip="Bagikan ke Facebook">
-            <span class="share-btn-icon">
-                <i class="fab fa-facebook-f"></i>
-            </span>
-            <span class="share-btn-text" style="color: blue;">Facebook</span>
+           aria-label="Bagikan ke Facebook"
+           title="Facebook">
+            <i class="fab fa-facebook-f"></i>
         </a>
         
         <!-- WhatsApp -->
@@ -37,25 +33,20 @@
            target="_blank" 
            rel="noopener noreferrer" 
            class="share-btn share-btn-whatsapp"
-           data-tooltip="Bagikan ke WhatsApp">
-            <span class="share-btn-icon">
-                <i class="fab fa-whatsapp"></i>
-            </span>
-            <span class="share-btn-text" style="color: green;">WhatsApp</span>
+           aria-label="Bagikan ke WhatsApp"
+           title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
         </a>
         
         <!-- Copy Link -->
         <button type="button" 
                 class="share-btn share-btn-copy" 
                 onclick="copyShareLink(this, '{{ $shareUrl }}')"
-                data-tooltip="Salin Link">
-            <span class="share-btn-icon">
-                <i class="fas fa-link"></i>
-            </span>
-            <span class="share-btn-text" style="color:black">Salin Link</span>
+                aria-label="Salin Link"
+                title="Salin Link">
+            <i class="fas fa-link"></i>
         </button>
     </div>
-</div>
 
 <!-- Toast Notification for Copy Link -->
 <div id="copyToast" class="copy-toast">
@@ -65,19 +56,18 @@
 
 <script>
 function copyShareLink(btn, url) {
-    // Fallback for older browsers
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(function() {
-            showCopyToast(btn);
+            showCopyToast();
         }).catch(function() {
-            fallbackCopyText(btn, url);
+            fallbackCopyText(url);
         });
     } else {
-        fallbackCopyText(btn, url);
+        fallbackCopyText(url);
     }
 }
 
-function fallbackCopyText(btn, url) {
+function fallbackCopyText(url) {
     var textarea = document.createElement('textarea');
     textarea.value = url;
     textarea.style.position = 'fixed';
@@ -86,14 +76,14 @@ function fallbackCopyText(btn, url) {
     textarea.select();
     try {
         document.execCommand('copy');
-        showCopyToast(btn);
+        showCopyToast();
     } catch (e) {
         alert('Gagal menyalin link. Silakan salin manual: ' + url);
     }
     document.body.removeChild(textarea);
 }
 
-function showCopyToast(btn) {
+function showCopyToast() {
     var toast = document.getElementById('copyToast');
     if (toast) {
         toast.classList.add('show');
@@ -101,20 +91,5 @@ function showCopyToast(btn) {
             toast.classList.remove('show');
         }, 2500);
     }
-    
-    // Visual feedback on button
-    if (btn) {
-        btn.classList.add('copied');
-        var textSpan = btn.querySelector('.share-btn-text');
-        if (textSpan) {
-            var originalText = textSpan.textContent;
-            textSpan.textContent = 'Tersalin!';
-            setTimeout(function() {
-                textSpan.textContent = originalText;
-                btn.classList.remove('copied');
-            }, 2000);
-        }
-    }
 }
 </script>
-
