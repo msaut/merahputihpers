@@ -67,6 +67,7 @@
     {{-- Share Buttons --}}
     @include('web.partials.share-buttons', [
         'url' => url()->current(),
+        'plainUrl' => url()->current(),
         'title' => $berita->judul,
         'description' => $cleanDesc,
         'image' => $ogImage,

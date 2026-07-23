@@ -5,6 +5,7 @@
 --}}
 @php
     $shareUrl = $url ?? url()->current();
+    $plainUrl = $plainUrl ?? $shareUrl;
     $shareTitle = $title ?? 'MerahPutihPers.com';
 
     $encodedUrl = urlencode($shareUrl);
