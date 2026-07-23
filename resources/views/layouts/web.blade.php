@@ -62,10 +62,17 @@
     margin: 0;
     font-size: 14px;
 }
-/* RESET HEADER */
+/* RESET HEADER & STICKY */
 .header-modern {
     width: 100%;
     font-family: 'Poppins', sans-serif;
+    position: sticky;
+    top: -48px;
+    z-index: 9999;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+    overflow: visible !important;
 }
 
 /* TOP BAR */
@@ -88,18 +95,11 @@
 
 /* MAIN HEADER */
 .main-header {
-    position: sticky;
-    top: 0;
-    z-index: 9999;
     background: #fff;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 body {
-    padding-top: 50px; /* Adjust this value based on your header height */
-}
-
-.header-modern {
-    overflow: visible !important;
+    padding-top: 0;
 }
 
 /* FLEX */
@@ -428,10 +428,11 @@ body {
     </script>
     <script>
 window.addEventListener("scroll", function() {
-    let header = document.querySelector(".main-header");
+    let header = document.querySelector(".header-modern");
+    if (!header) return;
 
-    if (window.scrollY > 50) {
-        header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.1)";
+    if (window.scrollY > 48) {
+        header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.12)";
     } else {
         header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.05)";
     }

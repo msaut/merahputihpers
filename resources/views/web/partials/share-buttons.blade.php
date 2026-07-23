@@ -56,10 +56,11 @@
         </button>
     </div>
 
-<!-- Toast Notification -->
-<div id="copyToast" class="copy-toast">
-    <i class="fas fa-check-circle"></i>
-    <span>Link berhasil disalin! Tempelkan ke WhatsApp untuk melihat preview.</span>
+    <!-- Toast Notification -->
+    <div id="copyToast" class="copy-toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Link berhasil disalin! Tempelkan ke WhatsApp untuk melihat preview.</span>
+    </div>
 </div>
 
 <script>
