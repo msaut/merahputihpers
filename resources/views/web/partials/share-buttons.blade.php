@@ -29,7 +29,7 @@
             <span class="share-btn-icon">
                 <i class="fab fa-facebook-f"></i>
             </span>
-            <span class="share-btn-text">Facebook</span>
+            <span class="share-btn-text" style="color: blue;">Facebook</span>
         </a>
         
         <!-- WhatsApp -->
@@ -41,7 +41,7 @@
             <span class="share-btn-icon">
                 <i class="fab fa-whatsapp"></i>
             </span>
-            <span class="share-btn-text">WhatsApp</span>
+            <span class="share-btn-text" style="color: green;">WhatsApp</span>
         </a>
         
         <!-- Copy Link -->
@@ -52,7 +52,7 @@
             <span class="share-btn-icon">
                 <i class="fas fa-link"></i>
             </span>
-            <span class="share-btn-text">Salin Link</span>
+            <span class="share-btn-text" style="color:black">Salin Link</span>
         </button>
     </div>
 </div>
