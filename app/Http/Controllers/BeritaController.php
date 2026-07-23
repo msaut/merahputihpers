@@ -7,13 +7,11 @@ use App\Models\Kategori;
 use App\Support\Base64Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function show($slug)
     {
         $berita = Berita::where('slug', $slug)->first();
@@ -71,13 +69,17 @@ class BeritaController extends Controller
         return view('admin.berita.index', compact('berita', 'kategoris', 'penulis'));
     }
 
-
     public function create()
     {
         $kategori = Kategori::all();
         return view('admin.berita.create', compact('kategori'));
     }
 
+    /**
+     * Store a new berita with image handling.
+     * Saves uploaded file to storage/app/public/berita/ for better OG/Facebook/WhatsApp crawlability.
+     * Base64 is also stored in DB as fallback for dynamic OG image route.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -91,9 +93,12 @@ class BeritaController extends Controller
         $gambarBase64 = null;
 
         if ($request->file('gambar')) {
-            $gambarName = $request->file('gambar')->getClientOriginalName();
+            $uploadedFile = $request->file('gambar');
+            $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs('public/berita', $filename);
+            $gambarName = $filename;
 
-            $tmp = $request->file('gambar')->getRealPath();
+            $tmp = $uploadedFile->getRealPath();
             if ($tmp) {
                 $gambarBase64 = Base64Image::fileToBase64($tmp, true);
             }
@@ -102,7 +107,6 @@ class BeritaController extends Controller
         $status = $request->input('status', 'draft');
         $publishAt = $request->input('publish_at');
 
-        // kalau user pilih publish langsung
         if ($status === 'published' && empty($publishAt)) {
             $publishAt = now();
         }
@@ -124,7 +128,6 @@ class BeritaController extends Controller
             'publish_at' => $publishAt,
             'published_at' => $publishedAt,
         ]);
-
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan.');
     }
@@ -151,9 +154,17 @@ class BeritaController extends Controller
         $gambarBase64 = $berita->gambar_base64;
 
         if ($request->file('gambar')) {
-            $gambarName = $request->file('gambar')->getClientOriginalName();
+            $uploadedFile = $request->file('gambar');
+            $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs('public/berita', $filename);
+            $gambarName = $filename;
 
-            $tmp = $request->file('gambar')->getRealPath();
+            // Delete old file
+            if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
+                Storage::disk('public')->delete('berita/' . $berita->gambar);
+            }
+
+            $tmp = $uploadedFile->getRealPath();
             if ($tmp) {
                 $gambarBase64 = Base64Image::fileToBase64($tmp, true);
             }
@@ -179,7 +190,6 @@ class BeritaController extends Controller
             'published_at' => $publishedAt,
         ]);
 
-
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate.');
     }
 
@@ -189,9 +199,13 @@ class BeritaController extends Controller
             abort(403);
         }
 
+        // Delete stored image file
+        if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
+            Storage::disk('public')->delete('berita/' . $berita->gambar);
+        }
+
         $berita->delete();
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
     }
 }
-

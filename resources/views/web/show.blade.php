@@ -2,19 +2,26 @@
 @extends('layouts.web')
 
 @section('og_meta')
+    @php
+        // Priority for OG image:
+        // 1. Stored file in storage/app/public/berita/ (real HTTP URL - Facebook/WhatsApp can crawl)
+        // 2. Dynamic /og-image/{id} route (serves base64 from DB with proper Content-Type header)
+        // 3. Fallback logo
+        $ogImage = '';
+        if ($berita->gambar && file_exists(public_path('storage/berita/' . $berita->gambar))) {
+            $ogImage = asset('storage/berita/' . $berita->gambar);
+        } elseif ($berita->gambar_base64) {
+            // Dynamic endpoint that serves Base64 with proper headers for social crawlers
+            $ogImage = route('og.image', $berita->id);
+        } else {
+            $ogImage = asset('assets/img/logo/logo.png');
+        }
+    @endphp
     <meta property="og:title" content="{{ $berita->judul }}" />
     <meta property="og:description" content="{{ Str::limit(strip_tags($berita->isi), 300) }}" />
-    @php
-        // Gunakan gambar asli (storage), bukan base64 agar Facebook/WhatsApp bisa crawl
-        $ogImage = $berita->gambar 
-            ? asset('storage/' . $berita->gambar)
-            : ($berita->gambar_base64 
-                ? url($berita->gambar_base64) 
-                : asset('assets/img/logo/logo.png'));
-    @endphp
     <meta property="og:image" content="{{ $ogImage }}" />
-    <meta property="og:image:width" content="800" />
-    <meta property="og:image:height" content="450" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="MerahPutihPers" />
@@ -32,7 +39,16 @@
     <p class="text-danger mt-10">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</p>
     <h1 class="">{{ $berita->judul }}</h1>
     <p><i class="fas fa-eye"></i> {{ $berita->views }} x dibaca</p>
-    <img src="{{ $berita->gambar_base64 ? $berita->gambar_base64 : asset('storage/' . $berita->gambar) }}" alt="" loading="lazy" style="width: 100%; max-width: 800px; height: 320px; object-fit: contain; border-radius: 8px; display:block; margin: 0 auto; background: #f7f7f7;">
+    
+    {{-- Article Image --}}
+    @php
+        $displayImage = $berita->gambar_base64 
+            ? $berita->gambar_base64 
+            : ($berita->gambar 
+                ? asset('storage/berita/' . $berita->gambar) 
+                : asset('assets/img/logo/logo.png'));
+    @endphp
+    <img src="{{ $displayImage }}" alt="{{ $berita->judul }}" loading="lazy" style="width: 100%; max-width: 800px; height: 320px; object-fit: contain; border-radius: 8px; display:block; margin: 0 auto; background: #f7f7f7;">
     
     {{-- Share Buttons --}}
     @include('web.partials.share-buttons', [
@@ -87,6 +103,7 @@
                 <div class="d-flex justify-content-center mt-3">
                     {{ $komentars->links('pagination::bootstrap-4') }}
                 </div>
+        </div>
     @endif
 </div>
 @endsection

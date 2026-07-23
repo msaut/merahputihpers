@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\WebAjaxController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\AdminStaticPagesController;
+use App\Http\Controllers\OgImageController;
 
 
 Route::get('/', [WebController::class, 'index'])->name('berita.show');
@@ -46,6 +47,9 @@ Route::delete('berita/{berita}', [BeritaController::class, 'destroy'])->name('be
 Route::get('/berita/{slug}', [WebController::class, 'show'])->name('web.show');
 Route::post('/berita/{berita}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('web.kategori');
+
+// Dynamic OG Image: serves Base64 image from DB with proper headers for crawlers
+Route::get('/og-image/{id}', [OgImageController::class, 'show'])->name('og.image');
 
 Route::post('/contact/messages', [StaticPageController::class, 'storeContactMessage'])->name('static.contact.messages');
 
