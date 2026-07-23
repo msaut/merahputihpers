@@ -21,7 +21,7 @@
 }
 
 .footer-links a:hover {
-    color: #d90429;
+    color: #d90429; /* merah elegan */
     padding-left: 5px;
 }
 </style>
@@ -34,19 +34,16 @@
         <link rel="manifest" href="site.webmanifest">
 		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-        {{-- Open Graph / Social Share Meta Tags --}}
+        {{-- Open Graph / Social Share Meta --}}
         @hasSection('og_meta')
             @yield('og_meta')
         @else
             <meta property="og:title" content="MerahPutihPers.com - Berita Terkini" />
             <meta property="og:description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
             <meta property="og:image" content="{{ asset('assets/img/logo/logo.png') }}" />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
             <meta property="og:url" content="{{ url()->current() }}" />
             <meta property="og:type" content="website" />
             <meta property="og:site_name" content="MerahPutihPers" />
-            <meta name="twitter:card" content="summary_large_image" />
         @endif
 
         <!-- AdSense -->
@@ -99,6 +96,7 @@
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="header-info-left">
                                     <ul>     
+                                        <!-- <li><img src="assets/img/icon/header_icon1.png" alt="">34ºc, Sunny </li> -->
                                         <li><img src="{{asset('assets/img/icon/header_icon1.png')}}" alt="">{{ date('Y M d D') }}</li>
                                     </ul>
                                 </div>
@@ -259,7 +257,24 @@
                                     </div>
                             </div>
                     </div>
-            </div>
+                    {{-- <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                        <div class="single-footer-caption mb-50 mt-60">
+                            <div class="footer-tittle">
+                                <h4>Instagram Feed</h4>
+                            </div>
+                            <div class="instagram-gellay">
+                                <ul class="insta-feed">
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra1.jpg') }}" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra2.jpg') }}" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra3.jpg') }}" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra4.jpg') }}" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra5.jpg') }}" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra6.jpg') }}" alt=""></a></li>
+                                </ul>
+                            </div>
+                    </div> --}}
+                </div>
+        </div>
        <!-- footer-bottom aera -->
        <div class="footer-bottom-area">
            <div class="container">
@@ -322,16 +337,18 @@
 $(document).on('click', '.pagination a', function(e) {
     e.preventDefault();
 
-    let url = $(this).attr('href');
+    let url = $(this).attr('href'); // ⬅️ ambil dari href Laravel
 
     if (!url) return;
 
     $.get(url, function(response) {
 
+        // ambil hanya bagian berita
         let newContent = $(response).find('#berita-container').html();
 
         $('#berita-container').html(newContent);
 
+        // scroll biar enak
         $('html, body').animate({
             scrollTop: $("#berita-container").offset().top - 100
         }, 400);
