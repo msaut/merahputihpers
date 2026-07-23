@@ -46,20 +46,20 @@
             <button class="btn btn-primary">Update</button>
         </form>
         </div>
-</div>
 <script>
 $(document).ready(function() {
     $('#summernote').summernote({
         tabsize: 2,
         height: 300,
         toolbar: [
+            ['history', ['undo', 'redo']],
             ['style', ['style']],
             ['font', ['bold', 'underline', 'clear', 'fontname']],
             ['color', ['color', 'forecolor']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['table', ['table']],
             ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]  
+            ['view', ['fullscreen', 'codeview', 'help']]
         ],
         callbacks: {
             onImageUpload: function(files) {

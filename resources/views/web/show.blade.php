@@ -3,10 +3,6 @@
 
 @section('og_meta')
     @php
-        // Priority for OG image:
-        // 1. Stored file in storage/app/public/berita/ (real HTTP URL - Facebook/WhatsApp can crawl)
-        // 2. Dynamic /og-image/{id} route (serves base64 from DB with proper Content-Type header)
-        // 3. Fallback logo
         $ogImage = '';
         if ($berita->gambar && file_exists(public_path('storage/berita/' . $berita->gambar))) {
             $ogImage = asset('storage/berita/' . $berita->gambar);
@@ -39,7 +35,6 @@
     <h1 class="">{{ $berita->judul }}</h1>
     <p><i class="fas fa-eye"></i> {{ $berita->views }} x dibaca</p>
     
-    {{-- Article Image --}}
     @php
         $displayImage = $berita->gambar_base64 
             ? $berita->gambar_base64 
@@ -76,9 +71,12 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="isi">Komentar</label>
-                    <textarea name="isi" class="form-control" rows="3" placeholder="Tulis komentar" required></textarea>
+                    <textarea name="isi" id="komentarTextarea" class="form-control" rows="3" placeholder="Tulis komentar" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Kirim</button>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('komentarTextarea').value=''">Batal</button>
+                </div>
             </form>
         </div>
 
@@ -105,4 +103,5 @@
         </div>
     @endif
 </div>
+
 @endsection
