@@ -8,22 +8,20 @@
     $shareTitle = $title ?? 'MerahPutihPers.com';
 
     $encodedUrl = urlencode($shareUrl);
+    $encodedText = urlencode($shareTitle . ' - ' . $shareUrl);
 
-    // Facebook: share URL — FB crawler reads OG tags for preview
+    // Facebook
     $facebookUrl = "https://www.facebook.com/sharer/sharer.php?u={$encodedUrl}";
 
-    // WhatsApp: share ONLY the URL — WA crawler will read OG tags → shows image + title + description
-    $whatsappUrl = "https://api.whatsapp.com/send?text={$encodedUrl}";
-
-    // Copy: just the clean URL (pasting into WhatsApp generates preview via OG tags)
-    $plainUrl = $shareUrl;
+    // WhatsApp (AUTO DEVICE)
+    $whatsappUrl = "https://wa.me/?text={$encodedText}";
 @endphp
 
 <div class="share-buttons-wrapper mt-4 mb-4">
     <div class="share-label">
         <i class="fas fa-share-alt"></i> Bagikan
     </div>
-    <div class="share-buttons">
+    <div class="share-buttons d-flex gap-2 flex-wrap">
         <!-- Facebook (OG crawler reads image + title + description from meta tags) -->
         <a href="{{ $facebookUrl }}" 
            target="_blank" 
