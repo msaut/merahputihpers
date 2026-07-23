@@ -46,24 +46,12 @@
 
 /* MAIN HEADER */
 .main-header {
-    position: fixed;   /* UBAH dari sticky ke fixed */
+    position: fixed;   /* PALING AMAN */
     top: 0;
     left: 0;
     width: 100%;
     z-index: 9999;
     background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-.main-header {
-    position: sticky;
-    top: 0; /* penting */
-    z-index: 9999;
-    background: #fff;
-    width: 100%;
-}
-
-/* efek biar keliatan naik level */
-.main-header {
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 .header-modern {
@@ -134,6 +122,12 @@
     padding-left: 50px;
     padding-right: 50px;
 }
+    .header-flex {
+        justify-content: space-between;
+    }
+    body {
+    padding-top: 110px; /* sesuaikan tinggi header */
+}
 @media (max-width: 768px) {
     .nav-menu {
         display: none;
@@ -142,12 +136,6 @@
     .search-box {
         display: none;
     }
-
-    .header-flex {
-        justify-content: space-between;
-    }
-    body {
-    padding-top: 110px; /* sesuaikan tinggi header */
 }
 /* TOP BAR HITAM */
 .top-bar {
@@ -178,7 +166,6 @@
 .top-social a:hover img {
     transform: scale(1.2);
     filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-}
 }
 </style>
 <head>
