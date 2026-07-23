@@ -20,6 +20,116 @@
     color: #d90429;
     padding-left: 5px;
 }
+/* RESET HEADER */
+.header-modern {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* TOP BAR */
+.top-bar {
+    background: #111;
+    color: #ccc;
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+.top-bar .social a {
+    color: #ccc;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.top-bar .social a:hover {
+    color: #fff;
+}
+
+/* MAIN HEADER */
+.main-header {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* FLEX */
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+}
+
+/* LOGO */
+.logo img {
+    height: 50px;
+}
+
+/* MENU */
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    margin: 0;
+}
+
+.nav-menu ul li a {
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    position: relative;
+}
+
+/* HOVER UNDERLINE */
+.nav-menu ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #d90429;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.nav-menu ul li a:hover::after {
+    width: 100%;
+}
+
+/* SEARCH */
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    padding: 5px 15px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    margin-left: 10px;
+}
+
+/* FULL WIDTH FIX */
+.container-fluid {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .search-box {
+        display: none;
+    }
+
+    .header-flex {
+        justify-content: space-between;
+    }
+}
 </style>
 <head>
     <meta charset="utf-8">
@@ -65,74 +175,56 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 <body>
-    <header>
-        <!-- Header Start -->
-        <div class="header-area">
-            <div class="main-header">
-                <div class="header-top black-bg d-none d-md-block">
-                    <div class="container">
-                        <div class="col-xl-12">
-                            <div class="row d-flex justify-content-between align-items-center">
-                                <div class="header-info-left">
-                                    <ul>
-                                        <li><img src="{{asset('assets/img/icon/header_icon1.png')}}" alt="">{{ date('Y M d D') }}</li>
-                                    </ul>
-                                </div>
-                                <div class="header-info-right">
-                                    <ul class="header-social">
-                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                    </ul>
-                                </div>
-                        </div>
-                </div>
-                <div class="header-mid d-none d-md-block">
-                    <div class="container">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-xl-3 col-lg-3 col-md-3">
-                                <div class="logo">
-                                    <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo/logo.png') }}" alt="" width="200px" loading="lazy"></a>
-                                </div>
-                            <div class="col-xl-9 col-lg-9 col-md-9">
-                                <div class="header-banner f-right">
-                                    <img src="{{asset('assets/img/hero/header_card.png')}}" alt="" loading="lazy">
-                                </div>
-                        </div>
-                </div>
-                <div class="header-bottom header-sticky">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
-                                <div class="main-menu d-none d-md-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a href="{{ url('/') }}">Home</a></li>
-                                            @php $kategori = \App\Models\Kategori::all(); @endphp
-                                            @foreach ($kategori as $kategori)
-                                            <li class="news-item">
-                                                <a href="{{ route('web.kategori', $kategori->id) }}" class="nav-item nav-link js-whats-new-filter">{{ $kategori->nama }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </nav>
-                                </div>
-                            <div class="col-xl-2 col-lg-2 col-md-4">
-                                <div class="header-right-btn f-right d-none d-lg-block">
-                                    <i class="fas fa-search special-tag"></i>
-                                    <div class="search-box">
-                                        <form action="#">
-                                            <input type="text" placeholder="Search">
-                                        </form>
-                                    </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-md-none"></div>
-                        </div>
-                </div>
+   <header class="header-modern">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container-fluid d-flex justify-content-between">
+            <div class="date">
+                {{ date('l, d M Y') }}
+            </div>
+            <div class="social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
         </div>
-        <!-- Header End -->
-    </header>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <div class="main-header">
+        <div class="container-fluid header-flex">
+            
+            <!-- LOGO -->
+            <div class="logo">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('assets/img/logo/logo.png') }}" alt="logo">
+                </a>
+            </div>
+
+            <!-- MENU -->
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    @php $kategori = \App\Models\Kategori::all(); @endphp
+                    @foreach ($kategori as $kategori)
+                        <li>
+                            <a href="{{ route('web.kategori', $kategori->id) }}">
+                                {{ $kategori->nama }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
+
+            <!-- SEARCH -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Cari berita...">
+            </div>
+
+        </div>
+    </div>
+</header>
 
     <main>
         @yield('content')
