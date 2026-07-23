@@ -3,6 +3,7 @@
 <style>
 .footer-area {
     background: #f8f9fa;
+    margin-top: 30px;
 }
 
 .footer-logo img {
@@ -87,14 +88,16 @@
 
 /* MAIN HEADER */
 .main-header {
-    position: fixed;   /* PALING AMAN */
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
     z-index: 9999;
     background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease-in-out;
 }
+body {
+    padding-top: 50px; /* Adjust this value based on your header height */
+}
+
 .header-modern {
     overflow: visible !important;
 }
