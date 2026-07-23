@@ -24,8 +24,8 @@
            rel="noopener noreferrer" 
            class="share-btn share-btn-facebook"
            aria-label="Bagikan ke Facebook"
-           title="Facebook">
-            <i class="fab fa-facebook-f"></i>
+           title="Facebook"><img src="assets/img/news/icon-fb.png" alt="">
+            <!-- <i class="fab fa-facebook-f"></i> -->
         </a>
         
         <!-- WhatsApp -->
@@ -34,8 +34,8 @@
            rel="noopener noreferrer" 
            class="share-btn share-btn-whatsapp"
            aria-label="Bagikan ke WhatsApp"
-           title="WhatsApp">
-            <i class="fab fa-whatsapp"></i>
+           title="WhatsApp"><img src="assets/img/news/icon-wa.png" alt="">
+            <!-- <i class="fab fa-whatsapp" ></i> -->
         </a>
         
         <!-- Copy Link -->
@@ -43,8 +43,8 @@
                 class="share-btn share-btn-copy" 
                 onclick="copyShareLink(this, '{{ $shareUrl }}')"
                 aria-label="Salin Link"
-                title="Salin Link">
-            <i class="fas fa-link"></i>
+                title="Salin Link"><img src="assets/img/news/icon-sl.png" alt="">
+            <!-- <i class="fas fa-link"></i> -->
         </button>
     </div>
 
