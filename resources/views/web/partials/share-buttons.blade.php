@@ -1,5 +1,5 @@
 {{-- 
-    Share Buttons Component (Icon Only)
+    Share Buttons Component
     Usage: @include('web.partials.share-buttons', ['url' => $url, 'title' => $title])
 --}}
 @php
@@ -24,8 +24,8 @@
            rel="noopener noreferrer" 
            class="share-btn share-btn-facebook"
            aria-label="Bagikan ke Facebook"
-           title="Facebook"><img src="assets/img/news/icon-fb.png" alt="">
-            <!-- <i class="fab fa-facebook-f"></i> -->
+           title="Facebook">
+            <img src="{{ asset('assets/img/news/icon-fb.png') }}" alt="Facebook">
         </a>
         
         <!-- WhatsApp -->
@@ -34,8 +34,8 @@
            rel="noopener noreferrer" 
            class="share-btn share-btn-whatsapp"
            aria-label="Bagikan ke WhatsApp"
-           title="WhatsApp"><img src="assets/img/news/icon-wa.png" alt="">
-            <!-- <i class="fab fa-whatsapp" ></i> -->
+           title="WhatsApp">
+            <img src="{{ asset('assets/img/news/icon-wa.png') }}" alt="WhatsApp">
         </a>
         
         <!-- Copy Link -->
@@ -43,8 +43,8 @@
                 class="share-btn share-btn-copy" 
                 onclick="copyShareLink(this, '{{ $shareUrl }}')"
                 aria-label="Salin Link"
-                title="Salin Link"><img src="assets/img/news/icon-sl.png" alt="">
-            <!-- <i class="fas fa-link"></i> -->
+                title="Salin Link">
+            <img src="{{ asset('assets/img/news/icon-sl.png') }}" alt="Salin Link">
         </button>
     </div>
 

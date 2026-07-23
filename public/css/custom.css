@@ -35,7 +35,7 @@ a:hover {
     color: #a71d2a;
 }
 
-/* ===== Share Buttons Modern Style (Icon Only) ===== */
+/* ===== Share Buttons Modern Style with PNG Icons ===== */
 .share-buttons-wrapper {
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     border: 1px solid #e9ecef;
@@ -74,6 +74,7 @@ a:hover {
     justify-content: flex-end;
 }
 
+/* Base button style - circular with brand colors */
 .share-btn {
     display: inline-flex;
     align-items: center;
@@ -81,14 +82,12 @@ a:hover {
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    font-size: 22px;
     text-decoration: none;
     border: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    color: #fff !important;
 }
 
 .share-btn::before {
@@ -106,12 +105,22 @@ a:hover {
     left: 100%;
 }
 
-.share-btn i {
+/* PNG image inside buttons */
+.share-btn img {
+    width: 28px;
+    height: 28px;
+    display: block;
+    object-fit: contain;
+    transition: transform 0.3s ease;
     position: relative;
     z-index: 1;
 }
 
-/* Facebook */
+.share-btn:hover img {
+    transform: scale(1.15);
+}
+
+/* Facebook - Blue */
 .share-btn-facebook {
     background: #1877F2;
     box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
@@ -127,7 +136,7 @@ a:hover {
     transform: translateY(0) scale(0.95);
 }
 
-/* WhatsApp */
+/* WhatsApp - Green */
 .share-btn-whatsapp {
     background: #25D366;
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
@@ -143,7 +152,7 @@ a:hover {
     transform: translateY(0) scale(0.95);
 }
 
-/* Copy Link */
+/* Copy Link - Gray */
 .share-btn-copy {
     background: #6c757d;
     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
@@ -242,6 +251,10 @@ a:hover {
     .share-btn {
         width: 44px;
         height: 44px;
-        font-size: 18px;
+    }
+
+    .share-btn img {
+        width: 22px;
+        height: 22px;
     }
 }
