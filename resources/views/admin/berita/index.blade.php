@@ -87,7 +87,7 @@
                             <td>{{ $berita->firstItem() + $loop->index }}</td>
                             <td>{{ $b->user ? $b->user->name : 'Penulis tidak ditemukan atau sudah tidak aktif' }}</td>
                             <td>{{ $b->judul }}</td>
-                            <td><img src="{{ $b->gambar_base64 ? $b->gambar_base64 : asset('storage/' . $b->gambar) }}" alt="" width="80" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+<td><img src="{{ $b->gambar_base64 ? $b->gambar_base64 : asset('storage/berita/' . $b->gambar) }}" alt="" width="80" height="40" style="object-fit: cover; border-radius: 4px;"></td>
                             <td>{{ $b->kategori->nama }}</td>
                             <td>{{ $b->views }} x</td>
                             <td>{{ $b->status }}</td>

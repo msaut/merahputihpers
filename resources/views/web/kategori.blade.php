@@ -90,7 +90,7 @@
                                                 <div class="what-img">
                                                     <img
                                                         class="square-img"
-                                                        src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}"
+src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/berita/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}"
                                                         alt="{{ $item->judul }}"
                                                         loading="lazy"
                                                     >

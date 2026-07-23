@@ -66,6 +66,7 @@
 </head>
 <body>
     <header>
+        <!-- Header Start -->
         <div class="header-area">
             <div class="main-header">
                 <div class="header-top black-bg d-none d-md-block">
@@ -130,6 +131,7 @@
                         </div>
                 </div>
         </div>
+        <!-- Header End -->
     </header>
 
     <main>
@@ -137,21 +139,20 @@
     </main>
 
     <footer>
+        <!-- Footer Start -->
         <div class="footer-area footer-padding fix">
             <div class="container">
                 <div class="row d-flex justify-content-between">
                     <div class="col-xl-5 col-lg-5 col-md-7 col-sm-12">
                         <div class="single-footer-caption">
-                            <div class="single-footer-caption">
-                                <div class="footer-logo">
-                                    <a href="{{ url('/') }}"><img src="{{asset('assets/img/logo/logo.png')}}" alt="" width="200px"></a>
-                                </div>
-                                <div class="footer-tittle">
-                                    <div class="footer-pera">
-                                        <p>Merah Putih Pers Hadir untuk Memberikan Penerangan Terhadap Berita-berita yang baik,faktual,dan bermanfaat bagi masyarakat,kami menjaga etika dalam jurnalistik demi kebenaran dan kepentingan publik.</p>
-                                    </div>
+                            <div class="footer-logo">
+                                <a href="{{ url('/') }}"><img src="{{asset('assets/img/logo/logo.png')}}" alt="" width="200px"></a>
                             </div>
-                    </div>
+                            <div class="footer-tittle">
+                                <div class="footer-pera">
+                                    <p>Merah Putih Pers Hadir untuk Memberikan Penerangan Terhadap Berita-berita yang baik,faktual,dan bermanfaat bagi masyarakat,kami menjaga etika dalam jurnalistik demi kebenaran dan kepentingan publik.</p>
+                                </div>
+                        </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-footer-caption mt-60">
                             <div class="footer-box p-4 rounded shadow-sm bg-white">
@@ -186,6 +187,7 @@
                             </div>
                     </div>
             </div>
+        <!-- Footer Bottom -->
         <div class="footer-bottom-area">
             <div class="container">
                 <div class="footer-border">
@@ -196,6 +198,7 @@
                             </div>
                     </div>
             </div>
+        <!-- Footer End -->
     </footer>
 
     <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>

@@ -24,11 +24,6 @@ class BeritaPenulisController extends Controller
         return view('penulis.berita.create', compact('kategori'));
     }
 
-    /**
-     * Store a new berita with image handling.
-     * FIX: storeAs('berita', $filename, 'public') saves to storage/app/public/berita/
-     * Old code storeAs('public/berita', $filename) saved to storage/app/private/public/berita/ (WRONG!)
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -73,10 +68,6 @@ class BeritaPenulisController extends Controller
         return view('penulis.berita.edit', compact('berita', 'kategori'));
     }
 
-    /**
-     * Update berita with image handling.
-     * FIX: storeAs('berita', $filename, 'public') saves correctly to storage/app/public/berita/
-     */
     public function update(Request $request, Berita $berita)
     {
         if ($berita->user_id !== Auth::id()) abort(403);
@@ -97,7 +88,6 @@ class BeritaPenulisController extends Controller
             $uploadedFile->storeAs('berita', $filename, 'public');
             $gambarName = $filename;
 
-            // Delete old file from correct disk
             if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
                 Storage::disk('public')->delete('berita/' . $berita->gambar);
             }
@@ -122,6 +112,9 @@ class BeritaPenulisController extends Controller
     public function destroy(Berita $berita)
     {
         if ($berita->user_id !== Auth::id()) abort(403);
+
+        // Hapus komentar terkait dulu agar tidak terkena foreign key constraint
+        $berita->komentars()->delete();
 
         // Delete stored image file from correct disk
         if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {

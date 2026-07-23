@@ -4,10 +4,10 @@
 @section('og_meta')
     @php
         $ogImage = '';
-        if ($berita->gambar && file_exists(public_path('storage/berita/' . $berita->gambar))) {
-            $ogImage = asset('storage/berita/' . $berita->gambar);
-        } elseif ($berita->gambar_base64) {
+        if ($berita->gambar_base64) {
             $ogImage = route('og.image', $berita->id);
+        } elseif ($berita->gambar) {
+            $ogImage = asset('storage/berita/' . $berita->gambar);
         } else {
             $ogImage = asset('assets/img/logo/logo.png');
         }
@@ -29,19 +29,17 @@
 @section('content')
 @php
     $cleanDesc = Str::limit(strip_tags($berita->isi), 300);
+    $displayImage = $berita->gambar_base64 
+        ? $berita->gambar_base64 
+        : ($berita->gambar 
+            ? asset('storage/berita/' . $berita->gambar) 
+            : asset('assets/img/logo/logo.png'));
 @endphp
 <div class="container mt-10">
     <p class="text-danger mt-10">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</p>
-    <h1 class="">{{ $berita->judul }}</h1>
+    <h1>{{ $berita->judul }}</h1>
     <p><i class="fas fa-eye"></i> {{ $berita->views }} x dibaca</p>
     
-    @php
-        $displayImage = $berita->gambar_base64 
-            ? $berita->gambar_base64 
-            : ($berita->gambar 
-                ? asset('storage/berita/' . $berita->gambar) 
-                : asset('assets/img/logo/logo.png'));
-    @endphp
     <img src="{{ $displayImage }}" alt="{{ $berita->judul }}" loading="lazy" style="width: 100%; max-width: 800px; height: 320px; object-fit: contain; border-radius: 8px; display:block; margin: 0 auto; background: #f7f7f7;">
     
     {{-- Share Buttons --}}
@@ -103,5 +101,4 @@
         </div>
     @endif
 </div>
-
 @endsection
