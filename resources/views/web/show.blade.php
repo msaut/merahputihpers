@@ -1,4 +1,4 @@
-<title>{{ $berita->judul }} | MENIT.COM</title>
+<title>{{ $berita->judul }} | merahputihpers.com</title>
 @extends('layouts.web')
 
 @section('og_meta')
