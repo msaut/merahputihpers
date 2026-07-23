@@ -54,6 +54,21 @@
     background: #fff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+.main-header {
+    position: sticky;
+    top: 0; /* penting */
+    z-index: 9999;
+    background: #fff;
+    width: 100%;
+}
+
+/* efek biar keliatan naik level */
+.main-header {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.header-modern {
+    overflow: visible !important;
+}
 
 /* FLEX */
 .header-flex {
@@ -381,5 +396,16 @@
             }).fail(function() { alert('Gagal load pagination'); });
         });
     </script>
+    <script>
+window.addEventListener("scroll", function() {
+    let header = document.querySelector(".main-header");
+
+    if (window.scrollY > 50) {
+        header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.1)";
+    } else {
+        header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.05)";
+    }
+});
+</script>
 </body>
 </html>
