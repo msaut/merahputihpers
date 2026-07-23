@@ -41,6 +41,7 @@
 
 .article-content img {
     max-width: 100%;
+    height: auto;
     border-radius: 10px;
     margin: 20px 0;
 }
@@ -57,8 +58,9 @@
         style="
             width:100%;
             max-width:800px;
-            height:400px;
-            object-fit:cover;
+            height:auto;
+            max-height:500px;
+            object-fit:contain;
             border-radius:10px;
             display:block;
             margin:20px auto;
