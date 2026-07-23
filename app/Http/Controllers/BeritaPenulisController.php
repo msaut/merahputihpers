@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Kategori;
+use App\Support\Base64Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Support\Base64Image;
-
+use Illuminate\Support\Facades\Storage;
 
 class BeritaPenulisController extends Controller
 {
@@ -24,6 +24,11 @@ class BeritaPenulisController extends Controller
         return view('penulis.berita.create', compact('kategori'));
     }
 
+    /**
+     * Store a new berita with image handling.
+     * Saves uploaded file to storage/app/public/berita/ for OG/Facebook/WhatsApp crawlability.
+     * Base64 is also stored in DB as fallback for dynamic OG image route.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -37,9 +42,12 @@ class BeritaPenulisController extends Controller
         $gambarBase64 = null;
 
         if ($request->file('gambar')) {
-            $gambarName = $request->file('gambar')->getClientOriginalName();
+            $uploadedFile = $request->file('gambar');
+            $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs('public/berita', $filename);
+            $gambarName = $filename;
 
-            $tmp = $request->file('gambar')->getRealPath();
+            $tmp = $uploadedFile->getRealPath();
             if ($tmp) {
                 $gambarBase64 = Base64Image::fileToBase64($tmp, true);
             }
@@ -53,9 +61,7 @@ class BeritaPenulisController extends Controller
             'user_id' => Auth::id(),
             'gambar' => $gambarName,
             'gambar_base64' => $gambarBase64,
-
         ]);
-
 
         return redirect()->route('penulis.berita.index')->with('success', 'Berita ditambahkan.');
     }
@@ -78,18 +84,25 @@ class BeritaPenulisController extends Controller
             'gambar' => 'nullable|image|max:2048'
         ]);
 
-
         $gambarName = $berita->gambar;
         $gambarBase64 = $berita->gambar_base64;
-        if ($request->file('gambar')) {
-            $gambarName = $request->file('gambar')->getClientOriginalName();
 
-            $tmp = $request->file('gambar')->getRealPath();
+        if ($request->file('gambar')) {
+            $uploadedFile = $request->file('gambar');
+            $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->storeAs('public/berita', $filename);
+            $gambarName = $filename;
+
+            // Delete old file
+            if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
+                Storage::disk('public')->delete('berita/' . $berita->gambar);
+            }
+
+            $tmp = $uploadedFile->getRealPath();
             if ($tmp) {
                 $gambarBase64 = Base64Image::fileToBase64($tmp, true);
             }
         }
-
 
         $berita->update([
             'judul' => $request->judul,
@@ -97,10 +110,7 @@ class BeritaPenulisController extends Controller
             'kategori_id' => $request->kategori_id,
             'gambar' => $gambarName,
             'gambar_base64' => $gambarBase64,
-
         ]);
-
-
 
         return redirect()->route('penulis.berita.index')->with('success', 'Berita diperbarui.');
     }
@@ -108,6 +118,12 @@ class BeritaPenulisController extends Controller
     public function destroy(Berita $berita)
     {
         if ($berita->user_id !== Auth::id()) abort(403);
+
+        // Delete stored image file
+        if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
+            Storage::disk('public')->delete('berita/' . $berita->gambar);
+        }
+
         $berita->delete();
         return redirect()->route('penulis.berita.index')->with('success', 'Berita dihapus.');
     }
