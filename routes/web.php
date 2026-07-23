@@ -17,6 +17,7 @@ use App\Http\Controllers\WebAjaxController;
 use App\Http\Controllers\StaticPageController;
 use App\Http\Controllers\AdminStaticPagesController;
 use App\Http\Controllers\OgImageController;
+use App\Http\Controllers\UploadController;
 
 
 Route::get('/', [WebController::class, 'index'])->name('berita.show');
@@ -55,6 +56,8 @@ Route::post('/contact/messages', [StaticPageController::class, 'storeContactMess
 
 Route::get('/ajax/whats-new', [WebAjaxController::class, 'whatsNew'])->name('ajax.whats-new');
 
+// Summernote image upload (must be logged in)
+Route::post('/upload/summernote', [UploadController::class, 'summernoteImage'])->name('upload.summernote')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('user', UserController::class);

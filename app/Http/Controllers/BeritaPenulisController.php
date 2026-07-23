@@ -26,8 +26,8 @@ class BeritaPenulisController extends Controller
 
     /**
      * Store a new berita with image handling.
-     * Saves uploaded file to storage/app/public/berita/ for OG/Facebook/WhatsApp crawlability.
-     * Base64 is also stored in DB as fallback for dynamic OG image route.
+     * FIX: storeAs('berita', $filename, 'public') saves to storage/app/public/berita/
+     * Old code storeAs('public/berita', $filename) saved to storage/app/private/public/berita/ (WRONG!)
      */
     public function store(Request $request)
     {
@@ -44,7 +44,7 @@ class BeritaPenulisController extends Controller
         if ($request->file('gambar')) {
             $uploadedFile = $request->file('gambar');
             $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->storeAs('public/berita', $filename);
+            $uploadedFile->storeAs('berita', $filename, 'public');
             $gambarName = $filename;
 
             $tmp = $uploadedFile->getRealPath();
@@ -73,6 +73,10 @@ class BeritaPenulisController extends Controller
         return view('penulis.berita.edit', compact('berita', 'kategori'));
     }
 
+    /**
+     * Update berita with image handling.
+     * FIX: storeAs('berita', $filename, 'public') saves correctly to storage/app/public/berita/
+     */
     public function update(Request $request, Berita $berita)
     {
         if ($berita->user_id !== Auth::id()) abort(403);
@@ -90,10 +94,10 @@ class BeritaPenulisController extends Controller
         if ($request->file('gambar')) {
             $uploadedFile = $request->file('gambar');
             $filename = time() . '_' . Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->storeAs('public/berita', $filename);
+            $uploadedFile->storeAs('berita', $filename, 'public');
             $gambarName = $filename;
 
-            // Delete old file
+            // Delete old file from correct disk
             if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
                 Storage::disk('public')->delete('berita/' . $berita->gambar);
             }
@@ -119,7 +123,7 @@ class BeritaPenulisController extends Controller
     {
         if ($berita->user_id !== Auth::id()) abort(403);
 
-        // Delete stored image file
+        // Delete stored image file from correct disk
         if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
             Storage::disk('public')->delete('berita/' . $berita->gambar);
         }

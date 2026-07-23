@@ -11,7 +11,6 @@
         if ($berita->gambar && file_exists(public_path('storage/berita/' . $berita->gambar))) {
             $ogImage = asset('storage/berita/' . $berita->gambar);
         } elseif ($berita->gambar_base64) {
-            // Dynamic endpoint that serves Base64 with proper headers for social crawlers
             $ogImage = route('og.image', $berita->id);
         } else {
             $ogImage = asset('assets/img/logo/logo.png');

@@ -1,8 +1,7 @@
 {{-- 
     Share Buttons Component
+    Uses FontAwesome icons (already loaded in layout) for Facebook, WhatsApp, Copy Link.
     WhatsApp link preview works by crawling OG meta tags via URL only.
-    When you send text + URL together, WhatsApp does NOT generate the rich preview card.
-    So we send ONLY the URL — WhatsApp crawls it and shows image + title + description automatically.
 --}}
 @php
     $shareUrl = $url ?? url()->current();
@@ -32,7 +31,8 @@
            class="share-btn share-btn-facebook"
            aria-label="Bagikan ke Facebook"
            title="Facebook">
-            <img src="{{ asset('assets/img/news/icon-fb.png') }}" alt="Facebook" loading="lazy">
+            <span class="share-btn-icon"><i class="fab fa-facebook-f"></i></span>
+            <span class="share-btn-text">Facebook</span>
         </a>
         
         <!-- WhatsApp (share only URL → WA crawler shows preview card with image) -->
@@ -42,7 +42,8 @@
            class="share-btn share-btn-whatsapp"
            aria-label="Bagikan ke WhatsApp"
            title="WhatsApp">
-            <img src="{{ asset('assets/img/news/icon-wa.png') }}" alt="WhatsApp" loading="lazy">
+            <span class="share-btn-icon"><i class="fab fa-whatsapp"></i></span>
+            <span class="share-btn-text">WhatsApp</span>
         </a>
         
         <!-- Copy Link (copies URL only — paste into WA generates rich preview) -->
@@ -51,7 +52,8 @@
                 onclick="copyPlainUrl(this, '{{ $plainUrl }}')"
                 aria-label="Salin Link"
                 title="Salin Link">
-            <img src="{{ asset('assets/img/news/icon-sl.png') }}" alt="Salin Link" loading="lazy">
+            <span class="share-btn-icon"><i class="fas fa-link"></i></span>
+            <span class="share-btn-text">Salin Link</span>
         </button>
     </div>
 
@@ -102,11 +104,11 @@ function showCopyToast(btn) {
     }
     if (btn) {
         btn.classList.add('copied');
-        var img = btn.querySelector('img');
-        if (img) {
-            img.style.transform = 'scale(1.3)';
+        var icon = btn.querySelector('.share-btn-icon i');
+        if (icon) {
+            icon.style.transform = 'scale(1.3)';
             setTimeout(function() {
-                img.style.transform = '';
+                icon.style.transform = '';
                 btn.classList.remove('copied');
             }, 2000);
         }

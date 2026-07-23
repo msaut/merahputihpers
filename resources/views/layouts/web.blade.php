@@ -21,7 +21,7 @@
 }
 
 .footer-links a:hover {
-    color: #d90429; /* merah elegan */
+    color: #d90429;
     padding-left: 5px;
 }
 </style>
@@ -33,6 +33,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
 		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+        {{-- Open Graph / Social Share Meta Tags --}}
+        @hasSection('og_meta')
+            @yield('og_meta')
+        @else
+            <meta property="og:title" content="MerahPutihPers.com - Berita Terkini" />
+            <meta property="og:description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
+            <meta property="og:image" content="{{ asset('assets/img/logo/logo.png') }}" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:url" content="{{ url()->current() }}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:site_name" content="MerahPutihPers" />
+            <meta name="twitter:card" content="summary_large_image" />
+        @endif
 
         <!-- AdSense -->
         {{-- AdSense bridging script (sebaiknya dimuat di <head> sekali saja) --}}
@@ -57,6 +72,7 @@
             <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
    </head>
 
    <body>
@@ -69,9 +85,7 @@
                 <div class="preloader-img pere-text">
                     <img src="assets/img/logo/logo.png" alt="">
                 </div>
-            </div>
-        </div>
-    </div> -->
+        </div> -->
     <!-- Preloader Start -->
      
 
@@ -85,7 +99,6 @@
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="header-info-left">
                                     <ul>     
-                                        <!-- <li><img src="assets/img/icon/header_icon1.png" alt="">34ºc, Sunny </li> -->
                                         <li><img src="{{asset('assets/img/icon/header_icon1.png')}}" alt="">{{ date('Y M d D') }}</li>
                                     </ul>
                                 </div>
@@ -96,9 +109,7 @@
                                        <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                                     </ul>
                                 </div>
-                            </div>
                        </div>
-                   </div>
                 </div>
                 <div class="header-mid d-none d-md-block">
                    <div class="container">
@@ -108,14 +119,11 @@
                                 <div class="logo">
                                     <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo/logo.png') }}" alt="" width="200px" loading="lazy"></a>
                                 </div>
-                            </div>
                             <div class="col-xl-9 col-lg-9 col-md-9" >
                                 <div class="header-banner f-right ">
                                     <img src="{{asset('assets/img/hero/header_card.png')}}" alt=""  loading="lazy">
                                 </div>
-                            </div>
                         </div>
-                   </div>
                 </div>
                 
                <div class="header-bottom header-sticky">
@@ -143,8 +151,7 @@
                                         @endforeach
                                         </ul>
                                     </nav>
-                                </div>
-                            </div>             
+                                </div>             
                             <div class="col-xl-2 col-lg-2 col-md-4">
                                 <div class="header-right-btn f-right d-none d-lg-block">
                                     <i class="fas fa-search special-tag"></i>
@@ -154,17 +161,13 @@
                                             
                                         </form>
                                     </div>
-                                </div>
                             </div>
                             
                             <!-- Mobile Menu -->
                             <div class="col-12">
                                 <div class="mobile_menu d-block d-md-none"></div>
-                            </div>
                         </div>
-                    </div>
                </div>
-            </div>
        </div>
         <!-- Header End -->
     </header>
@@ -181,7 +184,6 @@
                         // default from config/env, override by passing $adSlot here if needed
                     ])
                 </div>
-            </div>
         </div>
     </main>
 
@@ -203,7 +205,6 @@
                                     <div class="footer-pera">
                                         <p>Merah Putih Pers Hadir untuk Memberikan Penerangan Terhadap Berita-berita yang baik,faktual,dan bermanfaat bagi masyarakat,kami menjaga etika dalam jurnalistik demi kebenaran dan kepentingan publik.</p>
                                     </div>
-                                </div>
                                 <!-- social -->
                                 {{-- <div class="footer-social">
                                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -211,7 +212,6 @@
                                     <a href="#"><i class="fab fa-pinterest-p"></i></a>
                                 </div> --}}
                             </div>
-                        </div>
                     </div>
 
                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
@@ -234,7 +234,6 @@
                             </ul>
 
                         </div>
-                    </div>
                 </div>
 
                     <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6">
@@ -258,30 +257,9 @@
                                             <div class="mt-10 info"></div>
                                         </form>
                                     </div>
-                                </div>
                             </div>
-                        </div>
                     </div>
-                    {{-- <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
-                        <div class="single-footer-caption mb-50 mt-60">
-                            <div class="footer-tittle">
-                                <h4>Instagram Feed</h4>
-                            </div>
-                            <div class="instagram-gellay">
-                                <ul class="insta-feed">
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra1.jpg') }}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra2.jpg') }}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra3.jpg') }}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra4.jpg') }}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra5.jpg') }}" alt=""></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/post/instra6.jpg') }}" alt=""></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
             </div>
-        </div>
        <!-- footer-bottom aera -->
        <div class="footer-bottom-area">
            <div class="container">
@@ -291,11 +269,8 @@
                             <div class="footer-copy-right">
                                 <p>Copyright &copy; {{ date('Y') }} Merah Putih Pers, All Rights Reserved</p>
                             </div>
-                        </div>
                     </div>
-               </div>
            </div>
-       </div>
        <!-- Footer End-->
    </footer>
    
@@ -347,18 +322,16 @@
 $(document).on('click', '.pagination a', function(e) {
     e.preventDefault();
 
-    let url = $(this).attr('href'); // ⬅️ ambil dari href Laravel
+    let url = $(this).attr('href');
 
     if (!url) return;
 
     $.get(url, function(response) {
 
-        // ambil hanya bagian berita
         let newContent = $(response).find('#berita-container').html();
 
         $('#berita-container').html(newContent);
 
-        // scroll biar enak
         $('html, body').animate({
             scrollTop: $("#berita-container").offset().top - 100
         }, 400);
