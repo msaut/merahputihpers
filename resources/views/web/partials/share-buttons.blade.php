@@ -1,29 +1,23 @@
 {{-- 
-    Share Buttons Component with Rich Content
-    Usage: @include('web.partials.share-buttons', [
-        'url' => $url, 
-        'title' => $title, 
-        'description' => $description, 
-        'image' => $image
-    ])
+    Share Buttons Component
+    WhatsApp link preview works by crawling OG meta tags via URL only.
+    When you send text + URL together, WhatsApp does NOT generate the rich preview card.
+    So we send ONLY the URL — WhatsApp crawls it and shows image + title + description automatically.
 --}}
 @php
     $shareUrl = $url ?? url()->current();
     $shareTitle = $title ?? 'MerahPutihPers.com';
-    $shareDescription = $description ?? 'Baca selengkapnya di MerahPutihPers.com';
-    
+
     $encodedUrl = urlencode($shareUrl);
-    $encodedTitle = urlencode($shareTitle);
-    
+
+    // Facebook: share URL — FB crawler reads OG tags for preview
     $facebookUrl = "https://www.facebook.com/sharer/sharer.php?u={$encodedUrl}";
-    
-    // WhatsApp rich text: Judul + Deskripsi + Link (agar muncul konten saat di-share)
-    $whatsappText = strip_tags($shareTitle) . "\n\n" . strip_tags($shareDescription) . "\n\n" . $shareUrl;
-    $encodedWhatsapp = urlencode($whatsappText);
-    $whatsappUrl = "https://api.whatsapp.com/send?text={$encodedWhatsapp}";
-    
-    // Copy rich content: Judul + Deskripsi + Link
-    $richCopyText = strip_tags($shareTitle) . "\n\n" . strip_tags($shareDescription) . "\n\n" . $shareUrl;
+
+    // WhatsApp: share ONLY the URL — WA crawler will read OG tags → shows image + title + description
+    $whatsappUrl = "https://api.whatsapp.com/send?text={$encodedUrl}";
+
+    // Copy: just the clean URL (pasting into WhatsApp generates preview via OG tags)
+    $plainUrl = $shareUrl;
 @endphp
 
 <div class="share-buttons-wrapper mt-4 mb-4">
@@ -31,7 +25,7 @@
         <i class="fas fa-share-alt"></i> Bagikan
     </div>
     <div class="share-buttons">
-        <!-- Facebook (OG tags handle thumbnail) -->
+        <!-- Facebook (OG crawler reads image + title + description from meta tags) -->
         <a href="{{ $facebookUrl }}" 
            target="_blank" 
            rel="noopener noreferrer" 
@@ -41,7 +35,7 @@
             <img src="{{ asset('assets/img/news/icon-fb.png') }}" alt="Facebook" loading="lazy">
         </a>
         
-        <!-- WhatsApp (Rich Text: Title + Description + Link) -->
+        <!-- WhatsApp (share only URL → WA crawler shows preview card with image) -->
         <a href="{{ $whatsappUrl }}" 
            target="_blank" 
            rel="noopener noreferrer" 
@@ -51,12 +45,12 @@
             <img src="{{ asset('assets/img/news/icon-wa.png') }}" alt="WhatsApp" loading="lazy">
         </a>
         
-        <!-- Copy Link (Rich Text: Title + Description + Link) -->
+        <!-- Copy Link (copies URL only — paste into WA generates rich preview) -->
         <button type="button" 
                 class="share-btn share-btn-copy" 
-                onclick="copyRichContent(this, '{{ addslashes($richCopyText) }}')"
-                aria-label="Salin Konten + Link"
-                title="Salin Konten + Link">
+                onclick="copyPlainUrl(this, '{{ $plainUrl }}')"
+                aria-label="Salin Link"
+                title="Salin Link">
             <img src="{{ asset('assets/img/news/icon-sl.png') }}" alt="Salin Link" loading="lazy">
         </button>
     </div>
@@ -64,30 +58,23 @@
 <!-- Toast Notification -->
 <div id="copyToast" class="copy-toast">
     <i class="fas fa-check-circle"></i>
-    <span>Konten berita berhasil disalin! Siap di-paste ke WhatsApp, Telegram, dll.</span>
+    <span>Link berhasil disalin! Tempelkan ke WhatsApp untuk melihat preview.</span>
 </div>
 
 <script>
-/**
- * Copy rich content (title + description + URL) to clipboard
- * When pasted to WhatsApp, full content appears
- */
-function copyRichContent(btn, richText) {
-    if (navigator.clipboard && navigator.clipboard.write) {
-        var blob = new Blob([richText], { type: 'text/plain' });
-        navigator.clipboard.write([
-            new ClipboardItem({ 'text/plain': blob })
-        ]).then(function() {
+function copyPlainUrl(btn, url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
             showCopyToast(btn);
         }).catch(function() {
-            fallbackCopyRich(btn, richText);
+            fallbackCopy(btn, url);
         });
     } else {
-        fallbackCopyRich(btn, richText);
+        fallbackCopy(btn, url);
     }
 }
 
-function fallbackCopyRich(btn, text) {
+function fallbackCopy(btn, text) {
     var textarea = document.createElement('textarea');
     textarea.value = text;
     textarea.style.position = 'fixed';
@@ -100,7 +87,7 @@ function fallbackCopyRich(btn, text) {
         document.execCommand('copy');
         showCopyToast(btn);
     } catch (e) {
-        alert('Tekan Ctrl+C untuk menyalin:\n\n' + text);
+        alert('Salin manual: ' + text);
     }
     document.body.removeChild(textarea);
 }
@@ -113,17 +100,15 @@ function showCopyToast(btn) {
             toast.classList.remove('show');
         }, 3000);
     }
-    
-    // Visual feedback on the button
     if (btn) {
         btn.classList.add('copied');
         var img = btn.querySelector('img');
         if (img) {
-            img.style.transform = 'scale(1.2)';
+            img.style.transform = 'scale(1.3)';
             setTimeout(function() {
                 img.style.transform = '';
                 btn.classList.remove('copied');
-            }, 2500);
+            }, 2000);
         }
     }
 }
