@@ -270,8 +270,16 @@ body {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@hasSection('title')@yield('title')@else MerahPutihpers.com - Berita Terkini @endif</title>
+    <title>@hasSection('title')@yield('title')@else MerahPutihpers.com - Portal Berita Terkini, Faktual & Terpercaya @endif</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="{{ url()->current() }}">
+    @hasSection('robots')
+        <meta name="robots" content="@yield('robots')">
+    @else
+        <meta name="robots" content="index, follow">
+    @endif
+    <meta name="author" content="MerahPutihPers">
+    <meta name="language" content="Indonesian">
     <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}">
 
@@ -281,9 +289,10 @@ body {
     @else
         {{-- Default OG untuk halaman selain artikel --}}
         @php $defaultOgImage = asset('assets/img/logo/logo.png'); @endphp
-        <meta name="description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
-        <meta property="og:title" content="MerahPutihPers.com - Berita Terkini" />
-        <meta property="og:description" content="Portal berita faktual dan bermanfaat untuk masyarakat." />
+        <meta name="description" content="MerahPutihPers - Portal berita online terkini, terpercaya, dan faktual. Menyajikan berita nasional, daerah, politik, hukum, dan sosial budaya yang bermanfaat bagi masyarakat Indonesia." />
+        <meta name="keywords" content="berita terkini, berita nasional, berita daerah, portal berita, jurnalistik" />
+        <meta property="og:title" content="MerahPutihPers.com - Portal Berita Terkini & Terpercaya" />
+        <meta property="og:description" content="MerahPutihPers - Portal berita online terkini, terpercaya, dan faktual untuk masyarakat Indonesia." />
         <meta property="og:image" content="{{ $defaultOgImage }}" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -304,6 +313,23 @@ body {
     @if($adEnable && !empty($adClient))
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $adClient }}" crossorigin="anonymous"></script>
     @endif
+
+    {{-- JSON-LD Structured Data: WebSite + SearchAction --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MerahPutihPers",
+        "url": "{{ url('/') }}",
+        "description": "Portal berita online terkini, terpercaya, dan faktual untuk masyarakat Indonesia.",
+        "inLanguage": "id-ID",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ url('/search') }}?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">

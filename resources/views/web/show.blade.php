@@ -52,6 +52,38 @@
 <meta name="twitter:description" content="{{ $desc }}" />
 <meta name="twitter:image" content="{{ $ogImage }}" />
 <meta name="twitter:image:alt" content="{{ $berita->judul }}" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+
+{{-- JSON-LD: NewsArticle Structured Data --}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": {{ Js::from($berita->judul) }},
+    "description": {{ Js::from($desc) }},
+    "image": ["{{ $ogImage }}"],
+    "datePublished": "{{ $publishTime }}",
+    "dateModified": "{{ $berita->updated_at->toIso8601String() }}",
+    "author": {
+        "@type": "Person",
+        "name": {{ Js::from($berita->user->name ?? 'Admin') }}
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "MerahPutihPers",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('assets/img/logo/logo.png') }}"
+        }
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ url()->current() }}"
+    },
+    "articleSection": {{ Js::from($kategoriNama) }},
+    "url": "{{ url()->current() }}"
+}
+</script>
 @endsection
 
 @section('content')

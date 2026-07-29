@@ -63,8 +63,16 @@ class WebController extends Controller
 
     public function show($slug)
     {
-        $berita = Berita::where('slug', $slug)->first();
-        return view('web.show', compact('berita'));
+        $berita = Berita::with(['kategori', 'user', 'komentars'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Increment views
+        $berita->increment('views');
+
+        $komentars = $berita->komentars()->latest()->paginate(10);
+
+        return view('web.show', compact('berita', 'komentars'));
     }
 
     public function kategori($id)
