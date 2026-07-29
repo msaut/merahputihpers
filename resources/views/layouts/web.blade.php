@@ -368,11 +368,11 @@ body {
             <nav class="nav-menu">
                 <ul id="navigation">
                     <li><a href="/">Home</a></li>
-                    @php $kategoriNav = \App\Models\Kategori::all(); @endphp
-                    @foreach ($kategoriNav as $kat)
+                    @php $kategori = \App\Models\Kategori::all(); @endphp
+                    @foreach ($kategori as $kategori)
                         <li>
-                            <a href="{{ route('web.kategori', $kat->id) }}">
-                                {{ $kat->nama }}
+                            <a href="{{ route('web.kategori', $kategori->id) }}">
+                                {{ $kategori->nama }}
                             </a>
                         </li>
                     @endforeach
@@ -380,13 +380,12 @@ body {
             </nav>
 
             <!-- SEARCH -->
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Cari berita...">
-            </div>
-
-            <!-- Mobile Menu -->
-            <div class="mobile_menu d-block d-lg-none"></div>
+            <form action="{{ route('web.search') }}" method="GET" class="search-box">
+                <input type="text" name="q" placeholder="Cari berita..." value="{{ request('q') }}" required>
+                <button type="submit" style="background: transparent; border: none; padding: 0; cursor: pointer; color: #555;">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
 
         </div>
     </div>

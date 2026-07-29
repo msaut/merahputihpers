@@ -72,4 +72,28 @@ class WebController extends Controller
         $berita = Berita::where('kategori_id', $id)->paginate(3);
         return view('web.kategori', compact('berita'));
     }
+
+    public function search(Request $request)
+    {
+        $query = trim($request->input('q'));
+
+        $berita = Berita::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($sub) use ($query) {
+                    $sub->where('judul', 'like', "%{$query}%")
+                        ->orWhere('isi', 'like', "%{$query}%");
+                });
+            })
+            ->where('status', 'published')
+            ->where(function ($q) {
+                $q->where('publish_at', '<=', now())
+                  ->orWhereNull('publish_at');
+            })
+            ->with(['kategori', 'user'])
+            ->latest()
+            ->paginate(9)
+            ->appends(['q' => $query]);
+
+        return view('web.search', compact('berita', 'query'));
+    }
 }

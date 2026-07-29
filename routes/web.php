@@ -48,6 +48,7 @@ Route::delete('berita/{berita}', [BeritaController::class, 'destroy'])->name('be
 Route::get('/berita/{slug}', [WebController::class, 'show'])->name('web.show');
 Route::post('/berita/{berita}/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('web.kategori');
+Route::get('/search', [WebController::class, 'search'])->name('web.search');
 
 // Dynamic OG Image: serves Base64 image from DB with proper headers for crawlers
 Route::get('/og-image/{id}', [OgImageController::class, 'show'])->name('og.image');
