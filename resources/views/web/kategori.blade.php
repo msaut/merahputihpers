@@ -77,54 +77,56 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="whats-news-caption">
-                            <div class="row">
-                                @if($berita->count())
-                                    @foreach ($berita as $item)
-                                        <div class="col-lg-4 col-md-6 mb-4">
-                                            <div class="single-what-news" style="margin-top: 3rem; margin-bottom: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                                                <div class="what-img">
-                                                    <img
-                                                        class="square-img"
-src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/berita/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}"
-                                                        alt="{{ $item->judul }}"
-                                                        loading="lazy"
-                                                    >
-                                                </div>
-                                                <div class="what-cap" style="background-color: #ffffff6b; backdrop-filter: blur(2px);">
-                                                    <span class="color1" style="margin-left: 1rem;">{{ $item->kategori->nama }}</span>
-                                                    <h4 style="margin-left: 1rem">
-                                                        <a href="{{ route('web.show', $item->slug) }}">
-                                                            {{ Str::limit($item->judul, 80) }}
-                                                        </a>
-                                                    </h4>
-                                                    <div class="news-meta text-muted small">
-                                                        <span><i class="far fa-user"></i> {{ $item->user->name ?? 'Admin' }}</span>
-                                                        <span class="ms-3"><i class="far fa-calendar-alt"></i> {{ $item->created_at->format('d M Y') }}</span>
+        <div id="berita-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="whats-news-caption">
+                                <div class="row">
+                                    @if($berita->count())
+                                        @foreach ($berita as $item)
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="single-what-news" style="margin-top: 3rem; margin-bottom: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                                                    <div class="what-img">
+                                                        <img
+                                                            class="square-img"
+                                                            src="{{ $item->gambar_base64 ? $item->gambar_base64 : ( $item->gambar ? asset('storage/berita/' . $item->gambar) : 'https://via.placeholder.com/800x800?text=No+Image' ) }}"
+                                                            alt="{{ $item->judul }}"
+                                                            loading="lazy"
+                                                        >
+                                                    </div>
+                                                    <div class="what-cap" style="background-color: #ffffff6b; backdrop-filter: blur(2px);">
+                                                        <span class="color1" style="margin-left: 1rem;">{{ $item->kategori->nama ?? $kategori->nama }}</span>
+                                                        <h4 style="margin-left: 1rem">
+                                                            <a href="{{ route('web.show', $item->slug) }}">
+                                                                {{ Str::limit($item->judul, 80) }}
+                                                            </a>
+                                                        </h4>
+                                                        <div class="news-meta text-muted small">
+                                                            <span><i class="far fa-user"></i> {{ $item->user->name ?? 'Admin' }}</span>
+                                                            <span class="ms-3"><i class="far fa-calendar-alt"></i> {{ $item->created_at->format('d M Y') }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    @else
+                                        <div class="col-12">
+                                            <div class="alert alert-info text-center">Tidak ada berita pada kategori ini.</div>
                                         </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12">
-                                        <div class="alert alert-info text-center">Tidak ada berita pada kategori ini.</div>
-                                    </div>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- End Nav Card -->
                 </div>
-                <!-- End Nav Card -->
             </div>
-        </div>
 
-        <div class="d-flex justify-content-center mt-4 mb-5 w-100">
-            {{ $berita->links('pagination::bootstrap-5') }}
+            <div class="d-flex justify-content-center mt-4 mb-5 w-100">
+                {{ $berita->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div>
 </section>

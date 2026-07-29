@@ -169,14 +169,72 @@ body {
     .header-flex {
         justify-content: space-between;
     }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .header-flex {
+        padding: 10px 15px;
+        position: relative;
+    }
     .nav-menu {
         display: none;
     }
-
     .search-box {
         display: none;
     }
+}
+
+/* SlickNav Mobile Menu Custom Style */
+.mobile_menu {
+    position: relative;
+    z-index: 999;
+}
+.slicknav_menu {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.slicknav_btn {
+    background-color: #d90429 !important;
+    border-radius: 4px;
+    padding: 8px 10px !important;
+    margin: 0 !important;
+    float: right;
+    position: relative;
+    top: 0 !important;
+    right: 0 !important;
+    border: none !important;
+}
+.slicknav_menu .slicknav_icon-bar {
+    background-color: #ffffff !important;
+    height: 3px !important;
+    width: 22px !important;
+    margin: 4px 0 !important;
+    display: block !important;
+}
+.slicknav_nav {
+    background: #ffffff !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    margin-top: 15px !important;
+    padding: 10px 0 !important;
+    position: absolute;
+    right: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+.slicknav_nav a {
+    color: #222222 !important;
+    font-weight: 600;
+    padding: 10px 20px !important;
+    font-size: 15px !important;
+}
+.slicknav_nav a:hover {
+    color: #d90429 !important;
+    background: #f8f9fa !important;
 }
 /* TOP BAR HITAM */
 .top-bar {
@@ -310,11 +368,11 @@ body {
             <nav class="nav-menu">
                 <ul id="navigation">
                     <li><a href="/">Home</a></li>
-                    @php $kategori = \App\Models\Kategori::all(); @endphp
-                    @foreach ($kategori as $kategori)
+                    @php $kategoriNav = \App\Models\Kategori::all(); @endphp
+                    @foreach ($kategoriNav as $kat)
                         <li>
-                            <a href="{{ route('web.kategori', $kategori->id) }}">
-                                {{ $kategori->nama }}
+                            <a href="{{ route('web.kategori', $kat->id) }}">
+                                {{ $kat->nama }}
                             </a>
                         </li>
                     @endforeach
@@ -326,6 +384,9 @@ body {
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Cari berita...">
             </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile_menu d-block d-lg-none"></div>
 
         </div>
     </div>
@@ -425,14 +486,24 @@ body {
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script>
         $(document).on('click', '.pagination a', function(e) {
-            e.preventDefault();
             let url = $(this).attr('href');
-            if (!url) return;
-            $.get(url, function(response) {
-                let newContent = $(response).find('#berita-container').html();
-                $('#berita-container').html(newContent);
-                $('html, body').animate({ scrollTop: $("#berita-container").offset().top - 100 }, 400);
-            }).fail(function() { alert('Gagal load pagination'); });
+            if (!url || url === '#' || url.indexOf('javascript:') === 0) return;
+
+            if ($('#berita-container').length > 0) {
+                e.preventDefault();
+                $.get(url, function(response) {
+                    let $responseHtml = $($.parseHTML(response, document, true));
+                    let newContent = $responseHtml.find('#berita-container').html();
+                    if (newContent) {
+                        $('#berita-container').html(newContent);
+                        $('html, body').animate({ scrollTop: $("#berita-container").offset().top - 100 }, 400);
+                    } else {
+                        window.location.href = url;
+                    }
+                }).fail(function() {
+                    window.location.href = url;
+                });
+            }
         });
     </script>
     <script>
