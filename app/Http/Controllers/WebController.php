@@ -111,7 +111,7 @@ class WebController extends Controller
 
     $posts = Post::where('judul', 'LIKE', "%{$query}%")
         ->limit(5)
-        ->get(['id', 'judul', 'slug']);
+        ->get(['id', 'judul', 'slug','gambar',]);
 
     return response()->json($posts);
 }

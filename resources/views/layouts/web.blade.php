@@ -551,14 +551,22 @@
                         return;
                     }
 
-                    fetch(`/search/autocomplete?q=${query}`).then(res => res.json())
+                    fetch(`/search/autocomplete?q=${query}`)
+                        .then(res => res.json())
                         .then(data => {
                             let html = "";
 
                             if (data.length > 0) {
                                 data.forEach(item => {
-                                    html +=
-                                        `<a href="/berita/${item.slug}">${item.judul}</a>`;
+                                    html += `
+                            <a href="/berita/${item.slug}" style="display:flex; align-items:center; padding:8px; gap:10px; text-decoration:none;">
+                                
+                                <img src="/storage/${item.gambar}" 
+                                     style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
+
+                                <span style="color:#000;">${item.judul}</span>
+                            </a>
+                            `;
                                 });
                             } else {
                                 html = `<div style="padding:10px;">Tidak ditemukan</div>`;
