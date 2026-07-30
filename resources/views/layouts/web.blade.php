@@ -81,7 +81,7 @@
 
     <style>
         .footer-area {
-            background: #f8f9fa;
+            background: #000000;
             margin-top: 30px;
         }
 
