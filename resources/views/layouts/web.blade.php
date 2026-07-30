@@ -331,6 +331,32 @@
             transform: scale(1.2);
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
         }
+
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            z-index: 999;
+            display: none;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .search-dropdown a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-dropdown a:hover {
+            background: #f5f5f5;
+        }
     </style>
 </head>
 
@@ -376,13 +402,19 @@
                         @endforeach
                     </ul>
                 </nav>
-                <form action="{{ route('web.search') }}" method="GET" class="search-box">
-                    <input type="text" name="q" placeholder="Cari berita..." value="{{ request('q') }}"
-                        required>
+                <form action="{{ route('web.search') }}" method="GET" class="search-box"
+                    style="position: relative;">
+
+                    <input type="text" id="search-input" name="q" placeholder="Cari berita..."
+                        value="{{ request('q') }}" autocomplete="off">
+
                     <button type="submit"
                         style="background: transparent; border: none; padding: 0; cursor: pointer; color: #555;">
                         <i class="fas fa-search"></i>
                     </button>
+
+                    <!-- Dropdown hasil -->
+                    <div id="search-result" class="search-dropdown"></div>
                 </form>
             </div>
         </div>
@@ -499,6 +531,52 @@
             } else {
                 header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.05)";
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.getElementById("search-input");
+            const resultBox = document.getElementById("search-result");
+
+            let timeout = null;
+
+            input.addEventListener("keyup", function() {
+                clearTimeout(timeout);
+
+                timeout = setTimeout(() => {
+                    let query = input.value;
+
+                    if (query.length < 2) {
+                        resultBox.style.display = "none";
+                        return;
+                    }
+
+                    fetch(`/search/autocomplete?q=${query}`).then(res => res.json())
+                        .then(data => {
+                            let html = "";
+
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    html +=
+                                        `<a href="/berita/${item.slug}">${item.judul}</a>`;
+                                });
+                            } else {
+                                html = `<div style="padding:10px;">Tidak ditemukan</div>`;
+                            }
+
+                            resultBox.innerHTML = html;
+                            resultBox.style.display = "block";
+                        })
+                        .catch(err => console.log(err));
+
+                }, 300);
+            });
+
+            document.addEventListener("click", function(e) {
+                if (!input.contains(e.target) && !resultBox.contains(e.target)) {
+                    resultBox.style.display = "none";
+                }
+            });
         });
     </script>
 </body>

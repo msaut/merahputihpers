@@ -6,6 +6,7 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Berita;
 use carbon\Carbon;
+use App\Models\Post;
 
 class WebController extends Controller
 {
@@ -104,4 +105,14 @@ class WebController extends Controller
 
         return view('web.search', compact('berita', 'query'));
     }
+    public function autocomplete(Request $request)
+{
+    $query = $request->get('q');
+
+    $posts = Post::where('judul', 'LIKE', "%{$query}%")
+        ->limit(5)
+        ->get(['id', 'judul', 'slug']);
+
+    return response()->json($posts);
+}
 }
