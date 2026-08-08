@@ -7,6 +7,7 @@
     <title>@yield('title', 'MerahPutihpers.com - Portal Berita Terkini, Faktual & Terpercaya')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="@yield('robots', 'index, follow')">
     <meta name="author" content="MerahPutihPers">
     <meta name="language" content="Indonesian">
@@ -386,6 +387,37 @@
                     <a href="https://youtube.com/@@merahputihpers" target="_blank">
                         <img src="{{ asset('assets/img/news/icon-yo.png') }}" alt="yt">
                     </a>
+
+                   @if (\Illuminate\Support\Facades\Auth::guard('member')->check())
+    @php $memberGuest = \Illuminate\Support\Facades\Auth::guard('member')->user(); @endphp
+
+    {{-- Icon Member --}}
+    <a href="{{ route('member.dashboard') }}"
+       title="{{ $memberGuest->name }}"
+       style="padding:3px 6px; font-size:12px; line-height:1;width: 30px; height: 30px;"
+       class="btn btn-outline-light">
+        <i class="fas fa-user"></i>
+    </a>
+
+    {{-- Logout kecil --}}
+    <form method="POST" action="{{ route('member.logout') }}" class="d-inline">
+        @csrf
+        <button title="Logout"
+            style="padding:3px 6px; font-size:12px; line-height:1;width: 30px; height: 30px;"
+            class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </form>
+
+@else
+    {{-- Login kecil --}}
+    <a href="{{ route('member.login') }}"
+       title="Login"
+       style="padding:3px 6px; font-size:12px; line-height:1; width: 30px; height: 30px;"
+       class="btn btn-outline-danger">
+        <i class="fas fa-user"></i>
+    </a>
+@endif
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Berita;
 use carbon\Carbon;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class WebController extends Controller
 {
@@ -64,16 +65,36 @@ class WebController extends Controller
 
     public function show($slug)
     {
-        $berita = Berita::with(['kategori', 'user', 'komentars'])
+$berita = Berita::with(['kategori', 'user', 'komentars', 'memberComments'])
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Increment views
+// Increment views
         $berita->increment('views');
 
-        $komentars = $berita->komentars()->latest()->paginate(10);
+        // --- Fitur Member (modular): tracking riwayat baca ---
+        if (Auth::guard('member')->check()) {
+            try {
+                $member = Auth::guard('member')->user();
+                \App\Models\ReadingHistory::updateOrCreate(
+                    [
+                        'member_id' => $member->id,
+                        'post_id' => $berita->id,
+                    ],
+                    [
+                        'read_at' => now(),
+                    ]
+                );
+            } catch (\Throwable $e) {
+                // Abaikan error agar tidak mengganggu halaman berita
+            }
+        }
+// --- End fitur member ---
 
-        return view('web.show', compact('berita', 'komentars'));
+        $komentars = $berita->komentars()->latest()->paginate(10);
+        $memberComments = $berita->memberComments()->with('member')->latest()->get();
+
+        return view('web.show', compact('berita', 'komentars', 'memberComments'));
     }
 
     public function kategori($id)

@@ -22,10 +22,13 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test User']
         );
 
-        $this->call([
+$this->call([
             TermsOfUseSeeder::class,
             PrivacyPolicySeeder::class,
             ContactSeeder::class,
+            SubscriptionPlanSeeder::class,
+            PaymentMethodSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

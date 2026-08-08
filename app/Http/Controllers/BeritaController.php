@@ -14,19 +14,35 @@ class BeritaController extends Controller
 {
     public function show($slug)
     {
-        $berita = Berita::where('slug', $slug)->first();
+        $berita = Berita::with(['kategori', 'user', 'komentars', 'memberComments'])
+            ->where('slug', $slug)
+            ->first();
         if (!$berita) {
             abort(404);
         }
 
         $berita->increment('views');
         $komentars = $berita->komentars()->latest()->paginate(5);
+        $memberComments = $berita->memberComments()->with('member')->latest()->get();
         $kategori = $berita->kategori;
         $trending = Berita::orderBy('views', 'desc')->take(5)->get();
         $latest = Berita::latest()->take(5)->get();
         $kategoris = Kategori::withCount('beritas')->orderBy('beritas_count', 'desc')->take(5)->get();
 
-        return view('web.show', compact('berita', 'komentars', 'kategori', 'trending', 'latest', 'kategoris'));
+        // Fitur member: simpan riwayat baca jika member login
+        if (\Illuminate\Support\Facades\Auth::guard('member')->check()) {
+            try {
+                $member = \Illuminate\Support\Facades\Auth::guard('member')->user();
+                \App\Models\ReadingHistory::updateOrCreate(
+                    ['member_id' => $member->id, 'post_id' => $berita->id],
+                    ['read_at' => now()]
+                );
+            } catch (\Throwable $e) {
+                // Abaikan error agar tidak mengganggu halaman berita
+            }
+        }
+
+        return view('web.show', compact('berita', 'komentars', 'memberComments', 'kategori', 'trending', 'latest', 'kategoris'));
     }
 
     public function index(Request $request)

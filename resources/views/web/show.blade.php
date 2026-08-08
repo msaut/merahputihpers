@@ -178,29 +178,96 @@
             'image' => $ogImage,
         ])
 
+        {{-- Fitur Member: Bookmark & Like (modular, tampil jika member login) --}}
+        @if (\Illuminate\Support\Facades\Auth::guard('member')->check())
+            @php
+                $member = \Illuminate\Support\Facades\Auth::guard('member')->user();
+                $isBookmarked = $member->bookmarks()->where('post_id', $berita->id)->exists();
+                $isLiked = $member->likes()->where('post_id', $berita->id)->exists();
+            @endphp
+            <div class="d-flex align-items-center gap-2 mt-3">
+
+                {{-- LIKE --}}
+                <button
+                    onclick="toggleLike({{ $berita->id }}, 'like')"
+                    title="Suka"
+                    style="border:none; background:#f8f9fa; border-radius:50%; width:45px; height:45px; cursor:pointer;">
+                    <i class="fas fa-heart text-danger" style="font-size: 30px;"></i>
+                </button>
+
+                {{-- BOOKMARK --}}
+                <button
+                    onclick="toggleBookmark({{ $berita->id }}, 'bookmark')"
+                    title="Simpan"
+                    style="border:none; background:#f8f9fa; border-radius:50%; width:45px; height:45px; cursor:pointer;">
+                    <i class="fas fa-bookmark text-warning" style="font-size: 30px;"></i>
+                </button>
+
+                <span class="text-muted small align-self-center">
+                    <a href="{{ route('member.dashboard') }}" class="text-decoration-none" style="font-size: 30px;">Kelola</a>
+                </span>
+            </div>
+        @else
+            <div class="my-3">
+                 {{-- LIKE --}}
+                <button
+                    onclick="window.location='{{ route('member.login') }}'"
+                    title="Suka"
+                    style="border:none; background:#f8f9fa; border-radius:50%; width:45px; height:45px; cursor:pointer;">
+                    <i class="fas fa-heart text-danger" style="font-size: 30px;"></i>
+                </button>
+
+                {{-- BOOKMARK --}}
+                <button
+                    onclick="window.location='{{ route('member.login') }}'"
+                    title="Simpan"
+                    style="border:none; background:#f8f9fa; border-radius:50%; width:45px; height:45px; cursor:pointer;">
+                    <i class="fas fa-bookmark text-warning" style="font-size: 30px;"></i>
+                </button>
+
+                <span class="text-muted small align-self-center">
+                    <a href="{{ route('member.login') }}" class="text-decoration-none" style="font-size: 30px;">Kelola</a>
+                </span>
+            </div>
+        @endif
+
         <div class="article-content">
             {!! $berita->isi !!}
         </div>
         <p class="mt-3">Kategori: <span
                 class="badge bg-danger">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</span></p>
 
-        {{-- Komentar Form --}}
+{{-- Komentar Form --}}
         <div class="card mb-4 mt-5">
             <div class="card-header">
                 <h3>Tulis Komentar</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('komentar.store', $berita->id) }}" method="POST">
-                    @csrf
-                    <input type="text" name="nama" class="form-control mb-2" placeholder="Nama" required>
-                    <textarea name="isi" class="form-control mb-2" rows="3" placeholder="Komentar" required></textarea>
-                    <button class="btn btn-danger">Kirim</button>
-                </form>
+                @if (\Illuminate\Support\Facades\Auth::guard('member')->check())
+                    {{-- Member yang sudah login: komentar tersambung ke akun member --}}
+                    @php $memberComment = \Illuminate\Support\Facades\Auth::guard('member')->user(); @endphp
+                    <form action="{{ route('member.comments.store', $berita->id) }}" method="POST">
+                        @csrf
+                        <input type="text" class="form-control mb-2" value="{{ $memberComment->name }}" disabled>
+                        <textarea name="isi" class="form-control mb-2" rows="3" placeholder="Tulis komentar sebagai member..." required></textarea>
+                        <button class="btn btn-danger">Kirim</button>
+                    </form>
+                    <small class="text-muted">Komentar atas nama {{ $memberComment->name }}</small>
+                @else
+                    {{-- Guest: tetap memakai komentar lama (tidak dibatasi) --}}
+                    <form action="{{ route('komentar.store', $berita->id) }}" method="POST">
+                        @csrf
+                        <input type="text" name="nama" class="form-control mb-2" placeholder="Nama" required>
+                        <textarea name="isi" class="form-control mb-2" rows="3" placeholder="Komentar" required></textarea>
+                        <button class="btn btn-danger">Kirim</button>
+                    </form>
+                @endif
             </div>
         </div>
 
-        {{-- Daftar Komentar --}}
-        @if ($komentars->isEmpty())
+{{-- Daftar Komentar --}}
+        @php $hasComments = !$komentars->isEmpty() || !$memberComments->isEmpty(); @endphp
+        @if (!$hasComments)
             <p class="text-muted">Belum ada komentar.</p>
         @else
             <div class="card mb-4">
@@ -209,6 +276,19 @@
                 </div>
                 <div class="card-body">
 
+                    {{-- Komentar member (tersambung ke akun member) --}}
+                    @foreach ($memberComments as $mcomment)
+                        <div class="mb-3 border-bottom pb-2">
+                            <strong>
+                                <i class="fas fa-user-circle text-danger"></i> {{ $mcomment->member->name ?? 'Member' }}
+                            </strong>
+                            <span class="badge bg-danger text-white ms-1">Member</span><br>
+                            <small class="text-muted">{{ $mcomment->created_at->format('d M Y H:i') }}</small>
+                            <p>{{ $mcomment->isi }}</p>
+                        </div>
+                    @endforeach
+
+                    {{-- Komentar guest (sistem lama) --}}
                     @foreach ($komentars as $komentar)
                         <div class="mb-3 border-bottom pb-2">
                             <strong>{{ $komentar->nama }}</strong><br>
@@ -225,4 +305,33 @@
             </div>
         @endif
     </div>
+
+{{-- Fitur Member: JS AJAX Bookmark & Like --}}
+    @if (\Illuminate\Support\Facades\Auth::guard('member')->check())
+        <script>
+            function toggleLike(id) {
+                fetch(`/member/like/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then(res => res.json())
+                  .then(data => {
+                      alert(data.message);
+                  }).catch(err => console.error(err));
+            }
+
+            function toggleBookmark(id) {
+                fetch(`/member/bookmark/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then(res => res.json())
+                  .then(data => {
+                      alert(data.message);
+                  }).catch(err => console.error(err));
+            }
+        </script>
+    @endif
 @endsection

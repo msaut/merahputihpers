@@ -42,5 +42,39 @@ class Berita extends Model
         return $this->hasMany(Komentar::class);
     }
 
+    // Relasi Member (modular, additive)
+    public function memberBookmarks()
+    {
+        return $this->hasMany(Bookmark::class, 'post_id');
+    }
+
+    public function memberLikes()
+    {
+        return $this->hasMany(MemberLike::class, 'post_id');
+    }
+
+    public function memberReadingHistories()
+    {
+        return $this->hasMany(ReadingHistory::class, 'post_id');
+    }
+
+    public function memberComments()
+    {
+        return $this->hasMany(MemberComment::class, 'post_id');
+    }
+
+    // Relasi balik ke Member lewat pivot
+    public function bookmarkedBy()
+    {
+        return $this->belongsToMany(Member::class, 'bookmarks', 'post_id', 'member_id')
+            ->withTimestamps();
+    }
+
+    public function likedBy()
+    {
+        return $this->belongsToMany(Member::class, 'member_likes', 'post_id', 'member_id')
+            ->withTimestamps();
+    }
+
 }
 

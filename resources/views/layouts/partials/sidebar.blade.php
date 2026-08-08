@@ -42,6 +42,39 @@
                         <i class="fas fa-fw fa-table"></i>
                         <span>User</span></a>
                 </li>
+
+                <div class="sb-sidenav-menu-heading mt-3">Premium Member</div>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.members.index') }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Member</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.payments.index') }}">
+                        <i class="fas fa-fw fa-credit-card"></i>
+                        <span>Verifikasi Pembayaran</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.koran.index') }}">
+                        <i class="fas fa-fw fa-file-pdf"></i>
+                        <span>Koran PDF</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.subscription-plans.index') }}">
+                        <i class="fas fa-fw fa-crown"></i>
+                        <span>Paket Langganan</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.payment-methods.index') }}">
+                        <i class="fas fa-fw fa-money-bill-wave"></i>
+                        <span>Metode Pembayaran</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.settings.email') }}">
+                        <i class="fas fa-fw fa-envelope"></i>
+                        <span>Setting Email</span></a>
+                </li>
             </div>
         </div>
         <div class="sb-sidenav-footer">
