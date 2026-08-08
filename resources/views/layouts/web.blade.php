@@ -170,9 +170,10 @@
             color: #fff;
         }
 
-        .main-header {
+.main-header {
             background: #fff;
             transition: all 0.3s ease-in-out;
+            position: relative;
         }
 
         body {
@@ -256,11 +257,18 @@
             .search-box {
                 display: none;
             }
+
+            .mobile_menu {
+                display: block !important;
+            }
         }
 
-        .mobile_menu {
+.mobile_menu {
+            display: none;
             position: relative;
             z-index: 999;
+            margin-left: auto;
+            order: 3;
         }
 
         .slicknav_menu {
@@ -269,16 +277,15 @@
             margin: 0 !important;
         }
 
-        .slicknav_btn {
+.slicknav_btn {
             background-color: #d90429 !important;
             border-radius: 4px;
             padding: 8px 10px !important;
             margin: 0 !important;
-            float: right;
-            position: relative;
-            top: 0 !important;
-            right: 0 !important;
             border: none !important;
+            display: inline-block;
+            vertical-align: middle;
+            transform: translateY(12px);
         }
 
         .slicknav_menu .slicknav_icon-bar {
@@ -416,6 +423,7 @@
                     <!-- Dropdown hasil -->
                     <div id="search-result" class="search-dropdown"></div>
                 </form>
+                <div class="mobile_menu"></div>
             </div>
         </div>
     </header>
@@ -451,6 +459,8 @@
                             <ul class="list-unstyled footer-links">
                                 <li><a href="https://suararakyat.info" target="_blank">suararakyat.info</a></li>
                                 <li><a href="https://mitrapolisi.com" target="_blank">mitrapolisi.com</a></li>
+                                 <li><a href="https://Gakorpan.com" target="_blank">Gakorpan.com</a></li>
+                                <li><a href="https://Mabesnews.com" target="_blank">Mabesnews.com</a></li>
                             </ul>
                         </div>
                     </div>
