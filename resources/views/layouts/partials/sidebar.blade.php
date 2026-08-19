@@ -71,6 +71,11 @@
                         <span>Metode Pembayaran</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.rekanans.index') }}">
+                        <i class="fas fa-fw fa-handshake"></i>
+                        <span>Rekanan</span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.settings.email') }}">
                         <i class="fas fa-fw fa-envelope"></i>
                         <span>Setting Email</span></a>

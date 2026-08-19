@@ -140,6 +140,7 @@ use App\Http\Controllers\Admin\AdminKoranPdfController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSubscriptionPlanController;
 use App\Http\Controllers\Admin\AdminPaymentMethodController;
+use App\Http\Controllers\Admin\AdminRekananController;
 
 // Auth member (guest member)
 Route::prefix('member')->name('member.')->group(function () {
@@ -218,6 +219,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/payment-methods/{paymentMethod}/edit', [AdminPaymentMethodController::class, 'edit'])->name('payment-methods.edit');
     Route::put('/payment-methods/{paymentMethod}', [AdminPaymentMethodController::class, 'update'])->name('payment-methods.update');
     Route::delete('/payment-methods/{paymentMethod}', [AdminPaymentMethodController::class, 'destroy'])->name('payment-methods.destroy');
+
+    Route::get('/rekanans', [AdminRekananController::class, 'index'])->name('rekanans.index');
+    Route::get('/rekanans/create', [AdminRekananController::class, 'create'])->name('rekanans.create');
+    Route::post('/rekanans', [AdminRekananController::class, 'store'])->name('rekanans.store');
+    Route::get('/rekanans/{rekanan}/edit', [AdminRekananController::class, 'edit'])->name('rekanans.edit');
+    Route::put('/rekanans/{rekanan}', [AdminRekananController::class, 'update'])->name('rekanans.update');
+    Route::delete('/rekanans/{rekanan}', [AdminRekananController::class, 'destroy'])->name('rekanans.destroy');
 
     Route::get('/settings/email', [AdminSettingController::class, 'email'])->name('settings.email');
     Route::post('/settings/email', [AdminSettingController::class, 'emailUpdate'])->name('settings.email.store');

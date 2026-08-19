@@ -489,10 +489,14 @@
                             </ul>
                             <h5 class="fw-bold mb-3 border-bottom pb-2">Rekanan</h5>
                             <ul class="list-unstyled footer-links">
-                                <li><a href="https://suararakyat.info" target="_blank">suararakyat.info</a></li>
-                                <li><a href="https://mitrapolisi.com" target="_blank">mitrapolisi.com</a></li>
-                                 <li><a href="https://Gakorpan.com" target="_blank">Gakorpan.com</a></li>
-                                <li><a href="https://Mabesnews.com" target="_blank">Mabesnews.com</a></li>
+                                @php
+                                    $rekanans = \App\Models\Rekanan::active()->ordered()->get();
+                                @endphp
+                                @forelse ($rekanans as $rekanan)
+                                    <li><a href="{{ $rekanan->url }}" target="_blank" rel="noopener noreferrer">{{ $rekanan->name }}</a></li>
+                                @empty
+                                    <li class="text-muted small">Belum ada data rekanan.</li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
