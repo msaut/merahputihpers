@@ -157,6 +157,7 @@ class BeritaController extends Controller
             'isi' => 'required',
             'kategori_id' => 'required|exists:kategoris,id',
             'gambar' => 'nullable|image|max:2048',
+            'views' => 'nullable|integer|min:0',
         ]);
 
         $berita = Berita::findOrFail($id);
@@ -198,6 +199,7 @@ class BeritaController extends Controller
             'status' => $status,
             'publish_at' => $publishAt,
             'published_at' => $publishedAt,
+            'views' => $request->views,
         ]);
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate.');

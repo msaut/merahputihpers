@@ -43,6 +43,10 @@
                 <label>Publish At</label>
                 <input type="datetime-local" name="publish_at" class="form-control" value="{{ $berita->publish_at ? $berita->publish_at->format('Y-m-d\TH:i') : '' }}">
             </div>
+            <div class="mb-3">
+                <label>Views</label>
+                <input type="number" name="views" class="form-control" value="{{ $berita->views }}" min="0">
+            </div> 
             <button class="btn btn-primary">Update</button>
         </form>
         </div>
