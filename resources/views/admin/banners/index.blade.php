@@ -110,10 +110,8 @@
                                         <span class="badge bg-secondary">Nonaktif</span>
                                     @endif
                                 </td>
-                                <td>{{ $banner->tanggal_mulai ? \
-Carbon\Carbon::parse($banner->tanggal_mulai)->format('d M Y') : '-' }}</td>
-                                <td>{{ $banner->tanggal_selesai ? \
-Carbon\Carbon::parse($banner->tanggal_selesai)->format('d M Y') : '-' }}</td>
+                                <td>{{ $banner->tanggal_mulai ? \Carbon\Carbon::parse($banner->tanggal_mulai)->format('d M Y') : '-' }}</td>
+                                <td>{{ $banner->tanggal_selesai ? \Carbon\Carbon::parse($banner->tanggal_selesai)->format('d M Y') : '-' }}</td>
                                 <td>{{ $banner->urutan }}</td>
                                 <td class="text-end">
                                     <form action="{{ route('admin.banners.toggle-status', $banner->id) }}" method="POST" class="d-inline">
