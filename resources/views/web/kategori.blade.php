@@ -1,6 +1,9 @@
 @extends('layouts.web')
 
 @section('content')
+<div class="container mt-3">
+    <x-banner position="header" />
+</div>
 <style>
 .square-img {
     width: 100%;

@@ -154,6 +154,7 @@
         }
     </style>
     <div class="container mt-10">
+        <x-banner position="header" />
         <p class="text-danger mt-10">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</p>
         <h1>{{ $berita->judul }}</h1>
         <p><i class="fas fa-eye"></i> {{ $berita->views }} x dibaca</p>
@@ -234,6 +235,11 @@
         <div class="article-content">
             {!! $berita->isi !!}
         </div>
+
+        <div class="my-4">
+            <x-banner position="sidebar" />
+        </div>
+
         <p class="mt-3">Kategori: <span
                 class="badge bg-danger">{{ $berita->kategori ? $berita->kategori->nama : '-' }}</span></p>
 

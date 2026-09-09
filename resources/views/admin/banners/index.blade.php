@@ -43,6 +43,14 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="small text-uppercase">Total Klik</div>
+                    <div class="fs-3 fw-bold">{{ $stats['clicks'] }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -85,6 +93,7 @@
                             <th>Mulai</th>
                             <th>Berakhir</th>
                             <th>Urutan</th>
+                            <th>Klik</th>
                             <th class="text-end">Aksi</th>
                         </tr>
                     </thead>
@@ -113,6 +122,9 @@
                                 <td>{{ $banner->tanggal_mulai ? \Carbon\Carbon::parse($banner->tanggal_mulai)->format('d M Y') : '-' }}</td>
                                 <td>{{ $banner->tanggal_selesai ? \Carbon\Carbon::parse($banner->tanggal_selesai)->format('d M Y') : '-' }}</td>
                                 <td>{{ $banner->urutan }}</td>
+                                <td>
+                                    <span class="badge bg-info text-dark">{{ $banner->clicks ?? 0 }}</span>
+                                </td>
                                 <td class="text-end">
                                     <form action="{{ route('admin.banners.toggle-status', $banner->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -131,7 +143,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted">Belum ada banner.</td>
+                                <td colspan="9" class="text-center text-muted">Belum ada banner.</td>
                             </tr>
                         @endforelse
                     </tbody>
