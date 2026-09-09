@@ -23,6 +23,9 @@
             @endverbatim
         </style>
         <main>
+            <div class="container mt-3">
+                <x-banner position="header" />
+            </div>
             <!-- Trending Area Start -->
             <div class="trending-area fix">
                 <div class="container">
@@ -154,6 +157,9 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="row d-flex justify-content-between">
+                                <div class="col-lg-12">
+                                    <x-banner position="leaderboard" />
+                                </div>
                                 <div class="col-lg-3 col-md-3">
                                     <div class="section-tittle mb-30">
                                         <h3>Terbaru</h3>
@@ -216,6 +222,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
+                            <x-banner position="sidebar" />
                             <!-- Section Tittle -->
                             <div class="section-tittle mb-40">
                                 <h3>Follow Us</h3>

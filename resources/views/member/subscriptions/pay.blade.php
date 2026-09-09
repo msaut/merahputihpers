@@ -42,27 +42,27 @@
 
 {{-- Info rekening / nama per metode (muncul saat dipilih) --}}
                         <div class="mb-3">
-                            @foreach ($methods as $method)
+                            <?php foreach ($methods as $method): ?>
                                 <div class="payment-method-info d-none alert alert-light border"
                                     id="method-info-{{ $method->id }}">
                                     <div class="d-flex justify-content-between">
                                         <strong>{{ $method->name }}</strong>
                                     </div>
-                                    @if ($method->account_name)
+                                    <?php if ($method->account_name): ?>
                                         <div class="mt-1"><small class="text-muted">Atas Nama:</small>
                                             <strong>{{ $method->account_name }}</strong></div>
-                                    @endif
-@if ($method->account_number)
+                                    <?php endif; ?>
+                                    <?php if ($method->account_number): ?>
                                         <div class="mt-1"><small class="text-muted">Nomor / Akun:</small>
                                             <strong>{{ $method->account_number }}</strong></div>
-                                    @endif
-                                    @if ($method->description)
+                                    <?php endif; ?>
+                                    <?php if ($method->description): ?>
                                         <div class="mt-2 p-2 bg-light border rounded">
                                             <small class="text-muted">Keterangan:</small>
                                             <div>{!! nl2br(e($method->description)) !!}</div>
                                         </div>
-                                    @endif
-                                    @if ($method->account_number && $qrEnabled)
+                                    <?php endif; ?>
+                                    <?php if ($method->account_number && $qrEnabled): ?>
                                         <div class="mt-2 text-center">
                                             <div class="d-inline-block p-2 bg-white border rounded"
                                                 id="qr-{{ $method->id }}"></div>
@@ -71,9 +71,9 @@
                                     @endif
                                     @if (!$method->account_name && !$method->account_number)
                                         <div class="mt-1 text-muted small">Silakan hubungi admin untuk detail pembayaran.</div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
-                            @endforeach
+                            <?php endforeach; ?>
                         </div>
 
                         <div class="mb-3">

@@ -16,17 +16,11 @@ class PaymentApprovedMail extends Mailable
 
     public Payment $payment;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -34,9 +28,6 @@ class PaymentApprovedMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
@@ -44,11 +35,6 @@ class PaymentApprovedMail extends Mailable
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];

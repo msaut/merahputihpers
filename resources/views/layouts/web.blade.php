@@ -508,6 +508,9 @@
                                 <input type="email" placeholder="Email Address" class="form-control mb-2">
                                 <button class="btn btn-danger w-100">Subscribe</button>
                             </form>
+                            <div class="mt-3">
+                                <x-banner position="square" />
+                            </div>
                         </div>
                     </div>
                 </div>

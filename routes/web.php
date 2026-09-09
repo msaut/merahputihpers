@@ -141,6 +141,7 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSubscriptionPlanController;
 use App\Http\Controllers\Admin\AdminPaymentMethodController;
 use App\Http\Controllers\Admin\AdminRekananController;
+use App\Http\Controllers\Admin\BannerController;
 
 // Auth member (guest member)
 Route::prefix('member')->name('member.')->group(function () {
@@ -227,8 +228,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/rekanans/{rekanan}', [AdminRekananController::class, 'update'])->name('rekanans.update');
     Route::delete('/rekanans/{rekanan}', [AdminRekananController::class, 'destroy'])->name('rekanans.destroy');
 
+    Route::resource('banners', BannerController::class)->names('banners');
+    Route::patch('/banners/{banner}/toggle-status', [BannerController::class, 'toggleStatus'])->name('banners.toggle-status');
+    Route::get('/banners/{banner}/click', [BannerController::class, 'click'])->name('banners.click');
+
     Route::get('/settings/email', [AdminSettingController::class, 'email'])->name('settings.email');
     Route::post('/settings/email', [AdminSettingController::class, 'emailUpdate'])->name('settings.email.store');
 });
+
+Route::get('/banner/{banner}/click', [BannerController::class, 'click'])->name('banner.click');
 
 require __DIR__.'/auth.php';

@@ -76,6 +76,11 @@
                         <span>Rekanan</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.banners.index') }}">
+                        <i class="fas fa-fw fa-images"></i>
+                        <span>Banner / Iklan</span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.settings.email') }}">
                         <i class="fas fa-fw fa-envelope"></i>
                         <span>Setting Email</span></a>
